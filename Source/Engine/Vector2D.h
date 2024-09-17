@@ -6,7 +6,8 @@ public:
 	Vector2D() = default;
 	Vector2D(float x, float y);
 
-	float x, y = 0.0f;
+	float x = 0.f
+		, y = 0.f;
 
 
 	Vector2D& operator=(const Vector2D& vec);

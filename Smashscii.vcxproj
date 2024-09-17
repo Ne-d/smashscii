@@ -127,17 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Image.cpp" />
-    <ClCompile Include="Smashscii.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Vector2D.cpp" />
+    <ClCompile Include="Source\Engine\Background.cpp" />
+    <ClCompile Include="Source\Engine\Engine.cpp" />
+    <ClCompile Include="Source\Engine\Entity.cpp" />
+    <ClCompile Include="Source\Engine\Image.cpp" />
+    <ClCompile Include="Source\Engine\Vector2D.cpp" />
+    <ClCompile Include="Source\Smashscii.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Background.h" />
-    <ClInclude Include="Image.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="Source\Engine\Background.h" />
+    <ClInclude Include="Source\Engine\Engine.h" />
+    <ClInclude Include="Source\Engine\Entity.h" />
+    <ClInclude Include="Source\Engine\Image.h" />
+    <ClInclude Include="Source\Engine\Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

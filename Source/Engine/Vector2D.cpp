@@ -10,6 +10,8 @@ Vector2D& Vector2D::operator=(const Vector2D& vec)
 {
 	this->x = vec.x;
 	this->y = vec.y;
+
+	return *this;
 }
 
 Vector2D Vector2D::operator+(const Vector2D& vec)
