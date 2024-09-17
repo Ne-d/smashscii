@@ -4,29 +4,33 @@
 #include <iostream>
 #include <Windows.h>
 
-int main()
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 90
+
+void main(void)
 {
-    CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
-    
-    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
-    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hStdin == INVALID_HANDLE_VALUE ||
-        hStdout == INVALID_HANDLE_VALUE)
-    {
-        MessageBox(NULL, TEXT("GetStdHandle"), TEXT("Console Error"),
-            MB_OK);
-        return 1;
-    }
+	while (true) {
+		HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 
+		COORD dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
+		COORD dwBufferCoord = { 0, 0 };
+		SMALL_RECT rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
-    if (!GetConsoleScreenBufferInfo(hStdout, &csbiInfo))
-    {
-        MessageBox(NULL, TEXT("GetConsoleScreenBufferInfo"),
-            TEXT("Console Error"), MB_OK);
-        return 1;
-    }
+		CHAR_INFO buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
-    std::cout << csbiInfo.dwSize.X << std::endl;
+		ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+			dwBufferCoord, &rcRegion);
+
+		buffer[5][10].Char.AsciiChar = 'H';
+		buffer[5][10].Attributes = 0x0E;
+		buffer[5][11].Char.AsciiChar = 'i';
+		buffer[5][11].Attributes = 0x0B;
+		buffer[5][12].Char.AsciiChar = '!';
+		buffer[5][12].Attributes = 0x0A;
+
+		WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+			dwBufferCoord, &rcRegion);
+	}
 }
 
 //  [ O ]
