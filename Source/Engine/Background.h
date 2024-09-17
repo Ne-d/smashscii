@@ -7,8 +7,8 @@ public:
 	Background() = default;
 	Background(COORD& size);
 
-	const bool** GetCollisionTable() const;
-	const CHAR_INFO** GetImageTable() const;
+	bool** GetCollisionTable() const;
+	CHAR_INFO** GetImageTable() const;
 	const COORD& GetImageSize() const;
 
 private:

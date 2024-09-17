@@ -12,12 +12,12 @@ Background::Background(COORD& size)
 	}
 }
 
-const bool** Background::GetCollisionTable() const
+bool** Background::GetCollisionTable() const
 {
 	return this->collisionTable;
 }
 
-const CHAR_INFO** Background::GetImageTable() const
+CHAR_INFO** Background::GetImageTable() const
 {
 	return this->image.GetTable();
 }

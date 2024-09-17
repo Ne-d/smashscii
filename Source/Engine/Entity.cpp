@@ -12,7 +12,7 @@ Entity::Entity(COORD& size, Vector2D spawnPosition)
 	this->position = Vector2D(spawnPosition);
 }
 
-const CHAR_INFO** Entity::GetImageTable() const
+CHAR_INFO** Entity::GetImageTable() const
 {
 	return this->image.GetTable();
 }
