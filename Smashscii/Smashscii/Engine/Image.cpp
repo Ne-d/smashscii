@@ -12,12 +12,12 @@ Image::Image(COORD& size)
 	this->size = size;
 }
 
-const CHAR_INFO** Image::GetTable()
+const CHAR_INFO** Image::GetTable() const
 {
 	return this->table;
 }
 
-const COORD& Image::GetSize()
+const COORD& Image::GetSize() const
 {
 	return this->size;
 }

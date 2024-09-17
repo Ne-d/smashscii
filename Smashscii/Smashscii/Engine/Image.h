@@ -8,8 +8,8 @@ public:
 	Image() = default;
 	Image(COORD& size);
 
-	const CHAR_INFO** GetTable();
-	const COORD& GetSize();
+	const CHAR_INFO** GetTable() const;
+	const COORD& GetSize() const;
 
 private:
 	CHAR_INFO** table;
