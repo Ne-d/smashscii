@@ -26,5 +26,5 @@ private: // Data
 
 	std::chrono::steady_clock::time_point timePoint;
 	std::chrono::steady_clock::time_point previousTimePoint;
-	std::chrono::milliseconds frameTime;
+	std::chrono::nanoseconds frameTime;
 };

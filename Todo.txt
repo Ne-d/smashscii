@@ -1,1 +1,2 @@
 - Destructeur de Image.
+- Problèmes d'inclusion (sln ?)

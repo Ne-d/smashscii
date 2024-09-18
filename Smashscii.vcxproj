@@ -132,6 +132,7 @@
     <ClCompile Include="Source\Engine\Entity.cpp" />
     <ClCompile Include="Source\Engine\Image.cpp" />
     <ClCompile Include="Source\Engine\Vector2D.cpp" />
+    <ClCompile Include="Source\Game\Game.cpp" />
     <ClCompile Include="Source\Smashscii.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="Source\Engine\Entity.h" />
     <ClInclude Include="Source\Engine\Image.h" />
     <ClInclude Include="Source\Engine\Vector2D.h" />
+    <ClInclude Include="Source\Game\Game.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Todo.txt" />

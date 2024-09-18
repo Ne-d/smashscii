@@ -4,8 +4,13 @@
 #include "Engine.h"
 
 Engine::Engine(unsigned int width, unsigned int height)
-	: hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
-	dwBufferSize(COORD{ (short)width, (short)height })
+	: 
+	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
+	dwBufferSize(COORD{ (short)width, (short)height }),
+
+	timePoint(std::chrono::steady_clock::now()),
+	previousTimePoint(std::chrono::steady_clock::now()),
+	frameTime(std::chrono::milliseconds(1))
 {
 	rcRegion.Left = 0;
 	rcRegion.Top = 0;
@@ -38,7 +43,15 @@ void Engine::MainLoop()
 
 	while (true)
 	{
-		auto lastTime = std::chrono::steady_clock::now();
+		timePoint = std::chrono::steady_clock::now();
+		
+        // INPUTS
+        // ...
+        
+        // GAME CODE
+        // ...
+        
+        // RENDERING
 		Clear();
 
 		DrawImage(image, { x, 0 });
@@ -47,14 +60,12 @@ void Engine::MainLoop()
 
 		Flush();
 
-		auto currentTime = std::chrono::steady_clock::now();
-		auto frameTime = currentTime - lastTime;
-		auto frameRate = 100'000'000 / (std::chrono::duration_cast<std::chrono::nanoseconds>(frameTime).count());
+        frameTime = (timePoint - previousTimePoint);
+		//auto frameRate = 1000'000'000 / (std::chrono::duration_cast<std::chrono::nanoseconds>(frameTime).count());
 
-		std::cout << frameRate << std::endl;
-
-		//std::this_thread::sleep_until(lastTime + std::chrono::milliseconds(16));
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_until(timePoint + std::chrono::milliseconds(1));
+		
+		previousTimePoint = timePoint;
 	}
 }
 

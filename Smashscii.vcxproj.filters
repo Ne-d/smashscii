@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{fd69fcdc-f0d9-450a-985e-b4e36c8b8b7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{96e12061-714a-4397-ae22-a401abaa0650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{42c29c02-7eac-4dbe-81b0-0fef4d5baec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Smashscii.cpp">
@@ -39,6 +45,9 @@
     <ClCompile Include="Source\Engine\Vector2D.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Background.h">
@@ -55,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Vector2D.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Game.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
