@@ -27,6 +27,12 @@ void Entity::SetPosition(Vector2D& newPosition)
 	this->position = position;
 }
 
+void Entity::SetPosition(float x, float y)
+{
+	this->position.x = x;
+	this->position.y = y;
+}
+
 void Entity::Move(Vector2D& direction)
 {
 	this->position += direction;

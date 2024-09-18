@@ -19,6 +19,7 @@ public: // Methods
 	void DrawImage(const Image& image, COORD coords);
 
 	void ReadInputs();
+	std::vector<DWORD> GetInputs();
 
 private: // Data
 	const HANDLE hOutput;
@@ -33,5 +34,5 @@ private: // Data
 	std::chrono::steady_clock::time_point previousTimePoint;
 	std::chrono::nanoseconds frameTime;
 
-	std::vector<DWORD> keyEventList;
+	std::vector<DWORD> keyCodeList;
 };

@@ -8,6 +8,7 @@ class Player : public Entity
 public:
 
 	void SetBind(WORD originalKeybind, WORD newKeybind);
+	void Update();
 
 private:
 	std::map<WORD, void(*)()> binds;

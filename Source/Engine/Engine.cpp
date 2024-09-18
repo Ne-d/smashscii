@@ -2,6 +2,7 @@
 #include <thread>
 
 #include "Engine.h"
+#include "../Game/Game.h"
 
 Engine::Engine(unsigned int width, unsigned int height)
 	: 
@@ -28,6 +29,8 @@ Engine::Engine(unsigned int width, unsigned int height)
 
 void Engine::MainLoop()
 {
+	Game game;
+
 	COORD imageSize = { 3, 3 };
 	Image image(imageSize);
 	image.SetChar(0, 0, { ' ',  0x0E });
@@ -50,7 +53,7 @@ void Engine::MainLoop()
 		ReadInputs();
         
         // GAME CODE
-        // For each player in the Game, call their update function
+		game.Update();
         
         // RENDERING
 		Clear();
@@ -112,18 +115,22 @@ void Engine::ReadInputs()
 
 	BOOL res = ReadConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
 
-	keyEventList.clear();
+	keyCodeList.clear();
 
-	for (int i = 0; i < numberOfEventsRead; ++i)
+	for (unsigned int i = 0; i < numberOfEventsRead; ++i)
 	{
 		switch (inputRecord[i].EventType)
 		{
 		case KEY_EVENT:
-			keyEventList.push_back(inputRecord[i].Event.KeyEvent.wVirtualKeyCode);
+			keyCodeList.push_back(inputRecord[i].Event.KeyEvent.wVirtualKeyCode);
 			break;
 		default:
 			break;
 		}
-
 	}
+}
+
+std::vector<DWORD> Engine::GetInputs()
+{
+	return keyCodeList;
 }

@@ -9,7 +9,8 @@ class Game
 public:
 	Game();
 
-	std::vector<Player> players;
-
+	void Update();
 	Player& getPlayer(const int number);
+
+	std::vector<Player> players;
 };

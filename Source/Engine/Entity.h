@@ -14,6 +14,7 @@ public:
 
 	const Vector2D& GetPosition() const;
 	void SetPosition(Vector2D& newPosition);
+	void SetPosition(float x, float y);
 	void Move(Vector2D& direction);
 
 private:

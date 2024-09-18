@@ -24,3 +24,8 @@ void Player::SetBind(WORD originalKeybind, WORD newKeybind)
 	}
 
 }
+
+void Player::Update()
+{
+
+}
