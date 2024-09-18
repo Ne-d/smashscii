@@ -1,1 +1,1 @@
-Accesseurs X/Y sur image.
+- Destructeur de Image.

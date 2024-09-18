@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "Image.h"
 
+#include <chrono>
+
 class Engine
 {
 public: // Methods
@@ -11,6 +13,7 @@ public: // Methods
 	void MainLoop();
 	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character);
 	void Flush();
+	void Clear();
 	
 	void DrawImage(Image image, COORD coords);
 
@@ -20,4 +23,8 @@ private: // Data
 	SMALL_RECT rcRegion;
 
 	CHAR_INFO* buffer;
+
+	std::chrono::steady_clock::time_point timePoint;
+	std::chrono::steady_clock::time_point previousTimePoint;
+	std::chrono::milliseconds frameTime;
 };
