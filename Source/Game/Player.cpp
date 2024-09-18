@@ -1,9 +1,15 @@
 #include "Player.h"
 #include <utility>
 
+Player::Player(PlayerBinds& playerBinds)
+{
+	this->binds.insert({ playerBinds.moveLeftBind, [this]() { MoveLeft(); } });
+	this->binds.insert({ playerBinds.moveRightBind, [this]() { MoveRight(); } });
+}
+
 void Player::SetBind(WORD originalKeybind, WORD newKeybind)
 {
-	std::pair< WORD, void(*)() > keybind;
+	std::pair< WORD, std::function<void()>> keybind;
 
 	bool foundKeybind = false;
 
@@ -25,7 +31,18 @@ void Player::SetBind(WORD originalKeybind, WORD newKeybind)
 
 }
 
+}
+
 void Player::Update()
+{
+
+}
+void MoveLeft()
+{
+
+}
+
+void MoveRight()
 {
 
 }
