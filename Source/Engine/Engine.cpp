@@ -13,10 +13,6 @@ Engine::Engine(unsigned int width, unsigned int height)
 
 	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
 		{ 0, 0 }, &rcRegion);
-
-	WriteToBuffer(5, 10, {'H', 0x0E});
-	WriteToBuffer(5, 11, { 'i', 0x0E });
-	WriteToBuffer(5, 12, { 'H', 0x0E });
 }
 
 void Engine::WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character)
@@ -27,4 +23,15 @@ void Engine::WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character)
 void Engine::Flush()
 {
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize, {0, 0}, &rcRegion);
+}
+
+void Engine::DrawImage(Image image, COORD coords)
+{
+	for (int y = 0; y < image.GetSize().Y; y++)
+	{
+		for (int x = 0; x < image.GetSize().X; x++)
+		{
+			WriteToBuffer(x, y, image.GetTable()[x][y]);
+		}
+	}
 }

@@ -15,4 +15,3 @@ private:
 	bool** collisionTable;
 	Image image;
 };
-

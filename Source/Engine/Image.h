@@ -11,6 +11,8 @@ public:
 	CHAR_INFO** GetTable() const;
 	const COORD& GetSize() const;
 
+	void setChar(int x, int y, CHAR_INFO character);
+
 private:
 	CHAR_INFO** table;
 	COORD size;

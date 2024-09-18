@@ -21,3 +21,8 @@ const COORD& Image::GetSize() const
 {
 	return this->size;
 }
+
+void Image::setChar(int x, int y, CHAR_INFO character)
+{
+	table[x][y] = character;
+}
