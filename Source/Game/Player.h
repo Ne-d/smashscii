@@ -5,7 +5,6 @@
 #include <vector>
 #include <functional>
 
-
 struct PlayerBinds
 {
 	WORD moveLeftBind;
@@ -18,17 +17,18 @@ public:
 	Player() = default;
 	Player(PlayerBinds& playerBinds);
 
-	void SetBind(WORD originalKeybind, WORD newKeybind);
+	void SetBinds(const PlayerBinds& newBinds);
 	void Update();
 
 	void CheckInputs(std::vector<WORD>& inputQueueList);
+	void UpdateInputState();
 
 	//player action functions
 	void MoveLeft();
 	void MoveRight();
 
 private:
-	std::map<WORD, std::function<void()>> binds;
+	PlayerBinds binds;
 
 	//action states
 	bool moveLeftState;

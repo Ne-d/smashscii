@@ -2,39 +2,28 @@
 #include <utility>
 
 Player::Player(PlayerBinds& playerBinds)
+	:
+	moveLeftState(false),
+	moveRightState(false),
+	binds({0x41, 0x44}) // A and D keys (or Q and D on azerty)
 {
-	this->binds.insert({ playerBinds.moveLeftBind, [this]() { MoveLeft(); } });
-	this->binds.insert({ playerBinds.moveRightBind, [this]() { MoveRight(); } });
 }
 
-void Player::SetBind(WORD originalKeybind, WORD newKeybind)
+void Player::SetBinds(const PlayerBinds& newBinds)
 {
-	std::pair< WORD, std::function<void()>> keybind;
-
-	bool foundKeybind = false;
-
-	for (auto i : this->binds)
-	{
-		if (i.first == originalKeybind)
-		{
-			keybind = i;
-			foundKeybind = true;
-			break;
-		}
-	}
-
-	if (foundKeybind)
-	{
-		this->binds.erase(keybind.first);
-		this->binds.insert({newKeybind, keybind.second});
-	}
-
+	this->binds = newBinds;
 }
 
 void Player::Update()
 {
+	UpdateInputState();
+}
+
+void Player::UpdateInputState()
+{
 
 }
+
 void MoveLeft()
 {
 

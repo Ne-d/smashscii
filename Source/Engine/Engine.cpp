@@ -4,27 +4,27 @@
 #include "Engine.h"
 #include "../Game/Game.h"
 
-Engine::Engine(unsigned int width, unsigned int height)
-	: 
+Engine::Engine()
+	:
 	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
 	hInput((HANDLE)GetStdHandle(STD_INPUT_HANDLE)),
-	dwBufferSize(COORD{ (short)width, (short)height }),
 
 	timePoint(std::chrono::steady_clock::now()),
 	previousTimePoint(std::chrono::steady_clock::now()),
-	frameTime(std::chrono::milliseconds(1))
+	frameTime(std::chrono::milliseconds(1)),
+
+	// Default size
+	dwBufferSize({ 160, 90 }),
+	rcRegion({0, 0, 160, 90}),
+	buffer(new CHAR_INFO[160 * 90])
 {
-	rcRegion.Left = 0;
-	rcRegion.Top = 0;
-	rcRegion.Right = dwBufferSize.X - 1;
-	rcRegion.Bottom = dwBufferSize.Y - 1;
+	
+}
 
-	SetConsoleScreenBufferSize(hOutput, dwBufferSize);
-
-	buffer = new CHAR_INFO[dwBufferSize.X * dwBufferSize.Y];
-
-	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
-		{ 0, 0 }, &rcRegion);
+Engine& Engine::getInstance()
+{
+	static Engine instance;
+	return instance;
 }
 
 void Engine::MainLoop()
@@ -50,10 +50,10 @@ void Engine::MainLoop()
 		timePoint = std::chrono::steady_clock::now();
 		
         // INPUTS
-		ReadInputs();
+		//ReadInputs();
         
         // GAME CODE
-		game.Update();
+		//game.Update();
         
         // RENDERING
 		Clear();
@@ -90,6 +90,24 @@ void Engine::Clear()
 		for (int x = 0; x < dwBufferSize.X; x++)
 			WriteToBuffer(x, y, {' ', 0x00});
 	}
+}
+
+void Engine::SetScreenSize(unsigned int x, unsigned int y)
+{
+	rcRegion.Left = 0;
+	rcRegion.Top = 0;
+	rcRegion.Right = dwBufferSize.X - 1;
+	rcRegion.Bottom = dwBufferSize.Y - 1;
+
+	dwBufferSize.X = x;
+	dwBufferSize.Y = y;
+
+	SetConsoleScreenBufferSize(hOutput, dwBufferSize);
+
+	buffer = new CHAR_INFO[dwBufferSize.X * dwBufferSize.Y];
+
+	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+		{ 0, 0 }, &rcRegion);
 }
 
 void Engine::DrawImage(const Image& image, COORD coords)

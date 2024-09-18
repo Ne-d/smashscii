@@ -9,23 +9,29 @@
 class Engine
 {
 public: // Methods
-	Engine(unsigned int width, unsigned int height);
+	
+static Engine& getInstance();
 
 	void MainLoop();
 	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character);
 	void Flush();
 	void Clear();
+
+	void SetScreenSize(unsigned int x, unsigned int y);
 	
 	void DrawImage(const Image& image, COORD coords);
 
 	void ReadInputs();
 	std::vector<DWORD> GetInputs();
 
+private: // Constructor, because Singleton
+	Engine();
+
 private: // Data
 	const HANDLE hOutput;
 	const HANDLE hInput;
 
-	const COORD dwBufferSize;
+	COORD dwBufferSize;
 	SMALL_RECT rcRegion;
 
 	CHAR_INFO* buffer;

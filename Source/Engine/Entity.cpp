@@ -1,5 +1,9 @@
 #include "Entity.h"
 
+Entity::Entity()
+{
+}
+
 Entity::Entity(COORD& size)
 {
 	this->image = Image(size);

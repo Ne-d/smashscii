@@ -9,10 +9,10 @@
 #include "Engine/Engine.h"
 
 #define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 90
+#define SCREEN_HEIGHT 50
 
 int main(void)
 {
-	Engine engine(SCREEN_WIDTH, SCREEN_HEIGHT);
-	engine.MainLoop();
+	Engine::getInstance().SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	Engine::getInstance().MainLoop();
 }

@@ -6,7 +6,7 @@
 class Entity
 {
 public:
-	Entity() = default;
+	Entity();
 	Entity(COORD& size);
 	Entity(COORD& size, Vector2D& spawnPosition);
 
