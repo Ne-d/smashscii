@@ -1,9 +1,10 @@
 #pragma once
 
 #include <Windows.h>
-#include "Image.h"
-
 #include <chrono>
+#include <vector>
+
+#include "Image.h"
 
 class Engine
 {
@@ -17,8 +18,12 @@ public: // Methods
 	
 	void DrawImage(const Image& image, COORD coords);
 
+	void ReadInputs();
+
 private: // Data
 	const HANDLE hOutput;
+	const HANDLE hInput;
+
 	const COORD dwBufferSize;
 	SMALL_RECT rcRegion;
 
@@ -27,4 +32,6 @@ private: // Data
 	std::chrono::steady_clock::time_point timePoint;
 	std::chrono::steady_clock::time_point previousTimePoint;
 	std::chrono::nanoseconds frameTime;
+
+	std::vector<DWORD> keyEventList;
 };

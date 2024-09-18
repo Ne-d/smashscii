@@ -6,6 +6,7 @@
 Engine::Engine(unsigned int width, unsigned int height)
 	: 
 	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
+	hInput((HANDLE)GetStdHandle(STD_INPUT_HANDLE)),
 	dwBufferSize(COORD{ (short)width, (short)height }),
 
 	timePoint(std::chrono::steady_clock::now()),
@@ -46,10 +47,10 @@ void Engine::MainLoop()
 		timePoint = std::chrono::steady_clock::now();
 		
         // INPUTS
-        // ...
+		ReadInputs();
         
         // GAME CODE
-        // ...
+        // For each player in the Game, call their update function
         
         // RENDERING
 		Clear();
@@ -96,5 +97,33 @@ void Engine::DrawImage(const Image& image, COORD coords)
 		{
 			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
 		}
+	}
+}
+
+void Engine::ReadInputs()
+{
+	constexpr DWORD inputRecordSize = 255;
+	INPUT_RECORD inputRecord[inputRecordSize];
+	DWORD numberOfEventsRead;
+
+	PeekConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
+	if (numberOfEventsRead == 0)
+		return;
+
+	BOOL res = ReadConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
+
+	keyEventList.clear();
+
+	for (int i = 0; i < numberOfEventsRead; ++i)
+	{
+		switch (inputRecord[i].EventType)
+		{
+		case KEY_EVENT:
+			keyEventList.push_back(inputRecord[i].Event.KeyEvent.wVirtualKeyCode);
+			break;
+		default:
+			break;
+		}
+
 	}
 }
