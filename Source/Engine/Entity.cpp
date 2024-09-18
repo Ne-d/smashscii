@@ -3,26 +3,31 @@
 Entity::Entity(COORD& size)
 {
 	this->image = Image(size);
-	this->position = Vector2D();
+	this->position = Vector2D<float>();
 }
 
-Entity::Entity(COORD& size, Vector2D spawnPosition)
+Entity::Entity(COORD& size, Vector2D<float>& spawnPosition)
 {
 	this->image = Image(size);
-	this->position = Vector2D(spawnPosition);
+	this->position = spawnPosition;
 }
 
-CHAR_INFO** Entity::GetImageTable() const
+Image& Entity::GetImage()
 {
-	return this->image.GetTable();
+	return this->image;
 }
 
-const COORD& Entity::GetImageSize() const
-{
-	return this->image.GetSize();
-}
-
-const Vector2D& Entity::GetPosition() const
+const Vector2D<float>& Entity::GetPosition() const
 {
 	return this->position;
+}
+
+void Entity::SetPosition(Vector2D<float>& newPosition)
+{
+	this->position = position;
+}
+
+void Entity::Move(Vector2D<float>& direction)
+{
+	this->position += direction;
 }

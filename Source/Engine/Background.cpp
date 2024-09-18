@@ -8,21 +8,31 @@ Background::Background(COORD& size)
 	this->collisionTable = new bool* [size.X];
 	for (int i = 0; i < size.X; ++i)
 	{
-		collisionTable[i] = new bool[size.Y];
+		this->collisionTable[i] = new bool[size.Y];
 	}
 }
 
-bool** Background::GetCollisionTable() const
+Background::~Background()
 {
-	return this->collisionTable;
+	for (int i = 0; i < this->image.GetSize().X; ++i)
+	{
+		delete this->collisionTable[i];
+	}
+
+	delete this->collisionTable;
 }
 
-CHAR_INFO** Background::GetImageTable() const
+const bool& Background::GetCollisionTile(COORD& coords) const
 {
-	return this->image.GetTable();
+	return this->collisionTable[coords.X][coords.Y];
 }
 
-const COORD& Background::GetImageSize() const
+void Background::SetCollisionTile(COORD& coords, bool& collisionTileBool)
 {
-	return this->image.GetSize();
+	this->collisionTable[coords.X][coords.Y] = collisionTileBool;
+}
+
+Image& Background::GetImage()
+{
+	return this->image;
 }

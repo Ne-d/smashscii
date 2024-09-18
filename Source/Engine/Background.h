@@ -6,10 +6,12 @@ class Background
 public:
 	Background() = default;
 	Background(COORD& size);
+	~Background();
 
-	bool** GetCollisionTable() const;
-	CHAR_INFO** GetImageTable() const;
-	const COORD& GetImageSize() const;
+	const bool& GetCollisionTile(COORD& coords) const;
+	void SetCollisionTile(COORD& coords, bool& collisionTileBool);
+
+	Image& GetImage();
 
 private:
 	bool** collisionTable;
