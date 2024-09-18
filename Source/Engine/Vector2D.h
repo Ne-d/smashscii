@@ -1,16 +1,20 @@
 #pragma once
+template <typename T>
 class Vector2D
 {
 public:
 
 	Vector2D() = default;
-	Vector2D(float x, float y);
+	Vector2D(T x, T y);
 
-	float x = 0.f
-		, y = 0.f;
+	T x, y = 0;
 
 
 	Vector2D& operator=(const Vector2D& vec);
+	Vector2D& operator+=(const Vector2D& vec);
+	Vector2D& operator-=(const Vector2D& vec);
+	Vector2D& operator*=(const Vector2D& vec);
+	Vector2D& operator/=(const Vector2D& vec);
 
 	Vector2D operator+(const Vector2D& vec);
 	Vector2D operator-(const Vector2D& vec);

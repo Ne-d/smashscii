@@ -8,10 +8,11 @@ public:
 	Image() = default;
 	Image(COORD& size);
 
-	CHAR_INFO** GetTable() const;
+	//CHAR_INFO** GetTable() const;
 	const COORD& GetSize() const;
 
-	void setChar(int x, int y, CHAR_INFO character);
+	void SetChar(int x, int y, CHAR_INFO character);
+	const CHAR_INFO& GetChar(int x, int y) const;
 
 private:
 	CHAR_INFO** table;

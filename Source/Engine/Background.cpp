@@ -12,17 +12,17 @@ Background::Background(COORD& size)
 	}
 }
 
-bool** Background::GetCollisionTable() const
+const bool& Background::GetCollisionTile(COORD& coords) const
 {
-	return this->collisionTable;
+	return this->collisionTable[coords.X][coords.Y];
 }
 
-CHAR_INFO** Background::GetImageTable() const
+void Background::SetCollisionTile(COORD& coords, bool& collisionTileBool)
 {
-	return this->image.GetTable();
+	this->collisionTable[coords.X][coords.Y] = collisionTileBool;
 }
 
-const COORD& Background::GetImageSize() const
+Image& Background::GetImage()
 {
-	return this->image.GetSize();
+	return this->image;
 }

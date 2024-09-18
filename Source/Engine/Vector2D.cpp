@@ -1,12 +1,14 @@
 #include "Vector2D.h"
 
-Vector2D::Vector2D(float x, float y)
+template <typename T>
+Vector2D<T>::Vector2D(T x, T y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-Vector2D& Vector2D::operator=(const Vector2D& vec)
+template <typename T>
+Vector2D<T>& Vector2D<T>::operator=(const Vector2D& vec)
 {
 	this->x = vec.x;
 	this->y = vec.y;
@@ -14,7 +16,44 @@ Vector2D& Vector2D::operator=(const Vector2D& vec)
 	return *this;
 }
 
-Vector2D Vector2D::operator+(const Vector2D& vec)
+template <typename T>
+Vector2D<T>& Vector2D<T>::operator+=(const Vector2D& vec)
+{
+	this->x += vec.x;
+	this->y += vec.y;
+
+	return *this;
+}
+
+template <typename T>
+Vector2D<T>& Vector2D<T>::operator-=(const Vector2D& vec)
+{
+	this->x -= vec.x;
+	this->y -= vec.y;
+
+	return *this;
+}
+
+template <typename T>
+Vector2D<T>& Vector2D<T>::operator*=(const Vector2D& vec)
+{
+	this->x *= vec.x;
+	this->y *= vec.y;
+
+	return *this;
+}
+
+template <typename T>
+Vector2D<T>& Vector2D<T>::operator/=(const Vector2D& vec)
+{
+	this->x /= vec.x;
+	this->y /= vec.y;
+
+	return *this;
+}
+
+template <typename T>
+Vector2D<T> Vector2D<T>::operator+(const Vector2D& vec)
 {
 	Vector2D newVec;
 	
@@ -24,7 +63,8 @@ Vector2D Vector2D::operator+(const Vector2D& vec)
 	return newVec;
 }
 
-Vector2D Vector2D::operator-(const Vector2D& vec)
+template <typename T>
+Vector2D<T> Vector2D<T>::operator-(const Vector2D& vec)
 {
 	Vector2D newVec;
 
@@ -34,7 +74,8 @@ Vector2D Vector2D::operator-(const Vector2D& vec)
 	return newVec;
 }
 
-Vector2D Vector2D::operator*(const Vector2D& vec)
+template <typename T>
+Vector2D<T> Vector2D<T>::operator*(const Vector2D& vec)
 {
 	Vector2D newVec;
 
@@ -44,7 +85,8 @@ Vector2D Vector2D::operator*(const Vector2D& vec)
 	return newVec;
 }
 
-Vector2D Vector2D::operator/(const Vector2D& vec)
+template <typename T>
+Vector2D<T> Vector2D<T>::operator/(const Vector2D& vec)
 {
 	Vector2D newVec;
 

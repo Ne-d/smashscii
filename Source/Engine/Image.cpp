@@ -12,9 +12,9 @@ Image::Image(COORD& size)
 	this->size = size;
 }
 
-CHAR_INFO** Image::GetTable() const
+const CHAR_INFO& Image::GetChar(int x, int y) const
 {
-	return this->table;
+	return this->table[x][y];
 }
 
 const COORD& Image::GetSize() const
@@ -22,7 +22,7 @@ const COORD& Image::GetSize() const
 	return this->size;
 }
 
-void Image::setChar(int x, int y, CHAR_INFO character)
+void Image::SetChar(int x, int y, CHAR_INFO character)
 {
 	table[x][y] = character;
 }

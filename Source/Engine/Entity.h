@@ -8,13 +8,15 @@ class Entity
 public:
 	Entity() = default;
 	Entity(COORD& size);
-	Entity(COORD& size, Vector2D spawnPosition);
+	Entity(COORD& size, Vector2D<float>& spawnPosition);
 
-	CHAR_INFO** GetImageTable() const;
-	const COORD& GetImageSize() const;
-	const Vector2D& GetPosition() const;
+	Image& GetImage();
+
+	const Vector2D<float>& GetPosition() const;
+	void SetPosition(Vector2D<float>& newPosition);
+	void Move(Vector2D<float>& direction);
 
 private:
 	Image image;
-	Vector2D position;
+	Vector2D<float> position;
 };
