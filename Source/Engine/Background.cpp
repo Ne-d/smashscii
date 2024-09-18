@@ -8,8 +8,18 @@ Background::Background(COORD& size)
 	this->collisionTable = new bool* [size.X];
 	for (int i = 0; i < size.X; ++i)
 	{
-		collisionTable[i] = new bool[size.Y];
+		this->collisionTable[i] = new bool[size.Y];
 	}
+}
+
+Background::~Background()
+{
+	for (int i = 0; i < this->image.GetSize().X; ++i)
+	{
+		delete this->collisionTable[i];
+	}
+
+	delete this->collisionTable;
 }
 
 const bool& Background::GetCollisionTile(COORD& coords) const

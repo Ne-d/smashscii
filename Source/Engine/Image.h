@@ -7,6 +7,7 @@ public:
 
 	Image() = default;
 	Image(COORD& size);
+	~Image();
 
 	//CHAR_INFO** GetTable() const;
 	const COORD& GetSize() const;

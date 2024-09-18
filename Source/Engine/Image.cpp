@@ -12,6 +12,16 @@ Image::Image(COORD& size)
 	this->size = size;
 }
 
+Image::~Image()
+{
+	for (int i = 0; i < this->size.X; ++i)
+	{
+		delete this->table[i];
+	}
+
+	delete this->table;
+}
+
 const CHAR_INFO& Image::GetChar(int x, int y) const
 {
 	return this->table[x][y];

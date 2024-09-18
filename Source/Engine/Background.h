@@ -6,6 +6,7 @@ class Background
 public:
 	Background() = default;
 	Background(COORD& size);
+	~Background();
 
 	const bool& GetCollisionTile(COORD& coords) const;
 	void SetCollisionTile(COORD& coords, bool& collisionTileBool);
