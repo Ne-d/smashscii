@@ -88,13 +88,13 @@ void Engine::Clear()
 	}
 }
 
-void Engine::DrawImage(Image image, COORD coords)
+void Engine::DrawImage(const Image& image, COORD coords)
 {
-	for (int y = 0; y < image.GetSize().Y; y++)
+	for (int y = 0; y < image.GetSize().Y; ++y)
 	{
-		for (int x = 0; x < image.GetSize().X; x++)
+		for (int x = 0; x < image.GetSize().X; ++x)
 		{
-			WriteToBuffer(x + coords.X, y + coords.Y, image.GetTable()[x][y]);
+			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
 		}
 	}
 }

@@ -9,7 +9,7 @@
 #include "Engine/Engine.h"
 
 #define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 50
+#define SCREEN_HEIGHT 90
 
 int main(void)
 {

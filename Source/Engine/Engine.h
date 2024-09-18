@@ -15,7 +15,7 @@ public: // Methods
 	void Flush();
 	void Clear();
 	
-	void DrawImage(Image image, COORD coords);
+	void DrawImage(const Image& image, COORD coords);
 
 private: // Data
 	const HANDLE hOutput;
