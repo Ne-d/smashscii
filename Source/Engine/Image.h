@@ -6,7 +6,7 @@ class Image
 public:
 
 	Image() = delete;
-	Image(COORD& size);
+	explicit Image(const COORD& size);
 	~Image();
 
 	//CHAR_INFO** GetTable() const;

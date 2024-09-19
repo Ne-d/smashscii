@@ -11,23 +11,23 @@ Game::Game()
 
 void Game::Update()
 {
-	for (Player& player : players)
-		player.Update();
+	for (Player* player : players)
+		player->Update();
 }
 
 Player& Game::GetPlayer(const int number)
 {
-	return players.at(number);
+	return *players.at(number);
 }
 
-const std::vector<Player> Game::GetPlayers() const
+const std::vector<Player*>& Game::GetPlayers() const
 {
 	return players;
 }
 
 void Game::AddPlayer(int x, int y, PlayerBinds binds, unsigned int teamNb)
 {
-	players.emplace_back(x, y, binds, teamNb);
+	players.push_back(new Player(x, y, binds, teams.at(teamNb)));
 }
 
 void Game::AddTeam(WORD attributes)

@@ -21,7 +21,7 @@ static Engine& GetInstance();
 	void SetScreenSize(unsigned int x, unsigned int y);
 	
 	void DrawImage(const Image& image, COORD coords) const;
-	void DrawPlayer(const Player& player) const;
+	void DrawPlayer(const Player& player);
 
 	double GetDeltaTime() const;
 

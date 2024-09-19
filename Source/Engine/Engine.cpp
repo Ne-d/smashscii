@@ -61,8 +61,9 @@ void Engine::MainLoop()
 		x = x % 160;
 		*/
 
-		for (const Player& player : game.GetPlayers())
-			DrawPlayer(player);
+		unsigned int i = 0;
+		for (const Player* player : game.GetPlayers())
+			DrawPlayer(*player);
 
 		Flush();
 
@@ -123,9 +124,9 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	}
 }
 
-void Engine::DrawPlayer(const Player& player) const
+void Engine::DrawPlayer(const Player& player)
 {
-	COORD imageSize = { 3, 3 };
+	constexpr COORD imageSize = { 3, 3 };
 	Image image(imageSize);
 	image.SetChar(0, 0, { ' ',  0x0E });
 	image.SetChar(1, 0, { 'O',  0x0E });
