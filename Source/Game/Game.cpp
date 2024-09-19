@@ -1,22 +1,12 @@
 #include "Game.h"
 
 Game::Game()
-	:
-	players(std::vector<Player>(2))
 {
-	players.emplace_back();
-	players.at(0).SetPosition(10, 10);
-	PlayerBinds player1Binds;
-	player1Binds.moveLeftBind = 'Q';
-	player1Binds.moveRightBind = 'D';
-	players.at(0).SetBinds(player1Binds);
+	AddTeam(0x0E);
+	AddTeam(0x0F);
 
-	players.emplace_back();
-	PlayerBinds player2Binds;
-	player2Binds.moveLeftBind = VK_LEFT;
-	player2Binds.moveRightBind = VK_RIGHT;
-	players.at(1).SetBinds(player2Binds);
-	players.at(1).SetPosition(20, 10);
+	AddPlayer(10, 10, { 'Q', 'D' }, 0);
+	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT }, 1);
 }
 
 void Game::Update()
@@ -33,4 +23,14 @@ Player& Game::GetPlayer(const int number)
 const std::vector<Player> Game::GetPlayers() const
 {
 	return players;
+}
+
+void Game::AddPlayer(int x, int y, PlayerBinds binds, unsigned int teamNb)
+{
+	players.emplace_back(x, y, binds, teamNb);
+}
+
+void Game::AddTeam(WORD attributes)
+{
+	teams.push_back(attributes);
 }

@@ -14,12 +14,12 @@ struct PlayerBinds
 class Player : public Entity
 {
 public:
-	Player() = default;
-	Player(PlayerBinds& playerBinds);
+	Player(unsigned int x = 0, unsigned int y = 0, PlayerBinds binds = {'Q', 'D'}, WORD team = 0);
 
-	void SetBinds(const PlayerBinds& newBinds);
+	void SetBinds(const PlayerBinds newBinds);
+	void SetTeam(WORD team);
+	
 	void Update();
-
 	void UpdateInputState();
 	void UpdatePosition();
 
@@ -29,5 +29,7 @@ private:
 	// Action states
 	bool moveLeftState;
 	bool moveRightState;
+
+	WORD team;
 };
 

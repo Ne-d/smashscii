@@ -1,18 +1,10 @@
-// Smashscii.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include <iostream>
-#include <Windows.h>
-#include <chrono>
-#include <thread>
-
 #include "Engine/Engine.h"
 
-#define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 50
+constexpr short ScreenWidth = 160;
+constexpr short ScreenHeight = 50;
 
-int main(void)
+int main()
 {
-	Engine::GetInstance().SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	Engine::GetInstance().SetScreenSize(ScreenWidth, ScreenHeight);
 	Engine::GetInstance().MainLoop();
 }

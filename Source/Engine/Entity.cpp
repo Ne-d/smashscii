@@ -1,19 +1,17 @@
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity(COORD size)
+	:
+	image(size),
+	position()
 {
 }
 
-Entity::Entity(COORD& size)
+Entity::Entity(COORD size, Vector2D spawnPosition)
+	:
+	image(size),
+	position(spawnPosition)
 {
-	this->image = Image(size);
-	this->position = Vector2D();
-}
-
-Entity::Entity(COORD& size, Vector2D& spawnPosition)
-{
-	this->image = Image(size);
-	this->position = spawnPosition;
 }
 
 Image& Entity::GetImage()

@@ -5,7 +5,7 @@ class Image
 {
 public:
 
-	Image() = default;
+	Image() = delete;
 	Image(COORD& size);
 	~Image();
 

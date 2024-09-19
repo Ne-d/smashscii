@@ -9,20 +9,20 @@ Engine::Engine()
 	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
 	hInput((HANDLE)GetStdHandle(STD_INPUT_HANDLE)),
 
-	timePoint(std::chrono::steady_clock::now()),
-	previousTimePoint(std::chrono::steady_clock::now()),
-	frameTime(std::chrono::milliseconds(1)),
-
-	// Default size
 	dwBufferSize({ 160, 90 }),
 	rcRegion({0, 0, 160, 90}),
-	buffer(new CHAR_INFO[160 * 90])
+	buffer(new CHAR_INFO[160 * 90]),
+
+	// Default size
+	timePoint(std::chrono::steady_clock::now()),
+	previousTimePoint(std::chrono::steady_clock::now()),
+	frameTime(std::chrono::milliseconds(1))
 {
-	
 }
 
 Engine& Engine::GetInstance()
 {
+	// TODO: Changer ça pour faire plaisir à Axel.
 	static Engine instance;
 	return instance;
 }
@@ -42,8 +42,6 @@ void Engine::MainLoop()
 	image.SetChar(0, 2, { '/',  0x0E });
 	image.SetChar(1, 2, { ' ',  0x0E });
 	image.SetChar(2, 2, { '\\', 0x0E });
-
-	short x = 0;
 
 	while (true)
 	{
@@ -77,7 +75,7 @@ void Engine::MainLoop()
 	}
 }
 
-void Engine::WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character)
+void Engine::WriteToBuffer(const unsigned int x, const unsigned int y, const CHAR_INFO character) const
 {
 	buffer[x + y * dwBufferSize.X] = character;
 }
@@ -87,7 +85,7 @@ void Engine::Flush()
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize, {0, 0}, &rcRegion);
 }
 
-void Engine::Clear()
+void Engine::Clear() const
 {
 	for (int y = 0; y < dwBufferSize.Y; y++)
 	{
@@ -96,7 +94,7 @@ void Engine::Clear()
 	}
 }
 
-void Engine::SetScreenSize(unsigned int x, unsigned int y)
+void Engine::SetScreenSize(const unsigned int x, const unsigned int y)
 {
 	rcRegion.Left = 0;
 	rcRegion.Top = 0;
@@ -114,7 +112,7 @@ void Engine::SetScreenSize(unsigned int x, unsigned int y)
 		{ 0, 0 }, &rcRegion);
 }
 
-void Engine::DrawImage(const Image& image, COORD coords)
+void Engine::DrawImage(const Image& image, const COORD coords) const
 {
 	for (int y = 0; y < image.GetSize().Y; ++y)
 	{
@@ -125,7 +123,7 @@ void Engine::DrawImage(const Image& image, COORD coords)
 	}
 }
 
-void Engine::DrawPlayer(const Player& player)
+void Engine::DrawPlayer(const Player& player) const
 {
 	COORD imageSize = { 3, 3 };
 	Image image(imageSize);
@@ -146,7 +144,7 @@ void Engine::DrawPlayer(const Player& player)
 		<< std::endl;*/
 }
 
-double Engine::GetDeltaTime()
+double Engine::GetDeltaTime() const
 {
 	return frameTime.count() / 1'000'000.0; // frameTime is in nanoseconds, we return milliseconds.
 }
@@ -161,7 +159,7 @@ void Engine::ReadInputs()
 	if (numberOfEventsRead == 0)
 		return;
 
-	BOOL res = ReadConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
+	ReadConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
 
 	keyCodeList.clear();
 
@@ -183,7 +181,7 @@ std::vector<DWORD> Engine::GetInputs()
 	return keyCodeList;
 }
 
-bool Engine::IsKeyDown(DWORD key)
+bool Engine::IsKeyDown(const DWORD key)
 {
 	// Shamelessly stolen from Frank S. at:
 	// https://stackoverflow.com/questions/41600981/how-do-i-check-if-a-key-is-pressed-on-c
@@ -193,5 +191,5 @@ bool Engine::IsKeyDown(DWORD key)
 	// The suggested API with (ReadConsoleInput) seems to only count keys as pressed for a single frame,
 	// then repeats automatically after a delay.
 	// This is suitable for text input, but not continuous character movement.
-	// Therefore we use a different input system, that is still part of the Windows API.
+	// Because of this, we use a different input system, that is still part of the Windows API.
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Windows.h>
 #include <chrono>
 #include <vector>
+#include <Windows.h>
 
 #include "Image.h"
 #include "../Game/Player.h"
@@ -14,16 +14,16 @@ public: // Methods
 static Engine& GetInstance();
 
 	void MainLoop();
-	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character);
+	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character) const;
 	void Flush();
-	void Clear();
+	void Clear() const;
 
 	void SetScreenSize(unsigned int x, unsigned int y);
 	
-	void DrawImage(const Image& image, COORD coords);
-	void DrawPlayer(const Player& player);
+	void DrawImage(const Image& image, COORD coords) const;
+	void DrawPlayer(const Player& player) const;
 
-	double GetDeltaTime();
+	double GetDeltaTime() const;
 
 	void ReadInputs();
 	std::vector<DWORD> GetInputs();
@@ -33,9 +33,9 @@ static Engine& GetInstance();
 private: // Constructor, because Singleton
 	Engine();
 
-private: // Data
-	const HANDLE hOutput;
-	const HANDLE hInput;
+	// Data
+	HANDLE hOutput;
+	HANDLE hInput;
 
 	COORD dwBufferSize;
 	SMALL_RECT rcRegion;

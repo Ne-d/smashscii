@@ -4,17 +4,25 @@
 #include "Player.h"
 #include "../Engine/Engine.h"
 
-Player::Player(PlayerBinds& playerBinds)
+Player::Player(const unsigned int x, const unsigned int y, const PlayerBinds binds, const WORD team)
 	:
+	Entity(COORD{ 3, 3 }, Vector2D(x, y)),
+	binds(binds),
 	moveLeftState(false),
-	moveRightState(false)
+	moveRightState(false),
+	team(team)
 {
-	binds = playerBinds;
+	SetPosition(x, y);
 }
 
-void Player::SetBinds(const PlayerBinds& newBinds)
+void Player::SetBinds(const PlayerBinds newBinds)
 {
 	this->binds = newBinds;
+}
+
+void Player::SetTeam(WORD team)
+{
+	this->team = team;
 }
 
 void Player::Update()
