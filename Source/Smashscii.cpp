@@ -13,6 +13,6 @@
 
 int main(void)
 {
-	Engine::getInstance().SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	Engine::getInstance().MainLoop();
+	Engine::GetInstance().SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	Engine::GetInstance().MainLoop();
 }

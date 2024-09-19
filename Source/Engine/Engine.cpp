@@ -21,7 +21,7 @@ Engine::Engine()
 	
 }
 
-Engine& Engine::getInstance()
+Engine& Engine::GetInstance()
 {
 	static Engine instance;
 	return instance;
@@ -50,17 +50,21 @@ void Engine::MainLoop()
 		timePoint = std::chrono::steady_clock::now();
 		
         // INPUTS
-		//ReadInputs();
+		ReadInputs();
         
         // GAME CODE
-		//game.Update();
+		game.Update();
         
         // RENDERING
 		Clear();
 
-		DrawImage(image, { x, 0 });
+		/*DrawImage(image, {x, 0});
 		x++;
 		x = x % 160;
+		*/
+
+		for (const Player& player : game.GetPlayers())
+			DrawPlayer(player);
 
 		Flush();
 
@@ -121,6 +125,27 @@ void Engine::DrawImage(const Image& image, COORD coords)
 	}
 }
 
+void Engine::DrawPlayer(const Player& player)
+{
+	COORD imageSize = { 3, 3 };
+	Image image(imageSize);
+	image.SetChar(0, 0, { ' ',  0x0E });
+	image.SetChar(1, 0, { 'O',  0x0E });
+	image.SetChar(2, 0, { ' ',  0x0E });
+	image.SetChar(0, 1, { '-',  0x0E });
+	image.SetChar(1, 1, { '|',  0x0E });
+	image.SetChar(2, 1, { '-',  0x0E });
+	image.SetChar(0, 2, { '/',  0x0E });
+	image.SetChar(1, 2, { ' ',  0x0E });
+	image.SetChar(2, 2, { '\\', 0x0E });
+
+	DrawImage(image, player.GetPosition().RoundToCoord());
+	
+	/*std::cout << "Player coordinates: " << player.GetPosition().x << " (" << player.GetPosition().RoundToCoord().X << "), "
+		<< player.GetPosition().y << " (" << player.GetPosition().RoundToCoord().Y << ")"
+		<< std::endl;*/
+}
+
 void Engine::ReadInputs()
 {
 	constexpr DWORD inputRecordSize = 255;
@@ -151,4 +176,17 @@ void Engine::ReadInputs()
 std::vector<DWORD> Engine::GetInputs()
 {
 	return keyCodeList;
+}
+
+bool Engine::IsKeyDown(DWORD key)
+{
+	// Shamelessly stolen from Frank S. at:
+	// https://stackoverflow.com/questions/41600981/how-do-i-check-if-a-key-is-pressed-on-c
+
+	return GetKeyState(key) & 0x8000; //Check if high-order bit is set (1 << 15)
+
+	// The suggested API with (ReadConsoleInput) seems to only count keys as pressed for a single frame,
+	// then repeats automatically after a delay.
+	// This is suitable for text input, but not continuous character movement.
+	// Therefore we use a different input system, that is still part of the Windows API.
 }

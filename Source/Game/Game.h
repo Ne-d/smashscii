@@ -10,7 +10,8 @@ public:
 	Game();
 
 	void Update();
-	Player& getPlayer(const int number);
+	Player& GetPlayer(const int number);
+	const std::vector<Player> GetPlayers() const;
 
 	std::vector<Player> players;
 };

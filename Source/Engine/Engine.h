@@ -5,12 +5,13 @@
 #include <vector>
 
 #include "Image.h"
+#include "../Game/Player.h"
 
 class Engine
 {
 public: // Methods
 	
-static Engine& getInstance();
+static Engine& GetInstance();
 
 	void MainLoop();
 	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character);
@@ -20,9 +21,12 @@ static Engine& getInstance();
 	void SetScreenSize(unsigned int x, unsigned int y);
 	
 	void DrawImage(const Image& image, COORD coords);
+	void DrawPlayer(const Player& player);
 
 	void ReadInputs();
 	std::vector<DWORD> GetInputs();
+
+	static bool IsKeyDown(DWORD key);
 
 private: // Constructor, because Singleton
 	Engine();

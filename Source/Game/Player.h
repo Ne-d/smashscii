@@ -20,17 +20,13 @@ public:
 	void SetBinds(const PlayerBinds& newBinds);
 	void Update();
 
-	void CheckInputs(std::vector<WORD>& inputQueueList);
 	void UpdateInputState();
-
-	//player action functions
-	void MoveLeft();
-	void MoveRight();
+	void UpdatePosition();
 
 private:
 	PlayerBinds binds;
 
-	//action states
+	// Action states
 	bool moveLeftState;
 	bool moveRightState;
 };

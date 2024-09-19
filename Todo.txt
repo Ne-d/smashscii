@@ -1,2 +1,2 @@
-- Destructeur de Image.
-- Problèmes d'inclusion (sln ?)
+- Destructeurs (Engine)
+- QUESTION: Move(ref) ou Move(copy)?
