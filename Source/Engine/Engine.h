@@ -23,6 +23,8 @@ static Engine& GetInstance();
 	void DrawImage(const Image& image, COORD coords);
 	void DrawPlayer(const Player& player);
 
+	double GetDeltaTime();
+
 	void ReadInputs();
 	std::vector<DWORD> GetInputs();
 

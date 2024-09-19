@@ -146,6 +146,11 @@ void Engine::DrawPlayer(const Player& player)
 		<< std::endl;*/
 }
 
+double Engine::GetDeltaTime()
+{
+	return frameTime.count() / 1'000'000.0; // frameTime is in nanoseconds, we return milliseconds.
+}
+
 void Engine::ReadInputs()
 {
 	constexpr DWORD inputRecordSize = 255;

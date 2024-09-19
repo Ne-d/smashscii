@@ -49,7 +49,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

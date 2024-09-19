@@ -9,7 +9,7 @@ Game::Game()
 	PlayerBinds player1Binds;
 	player1Binds.moveLeftBind = 'Q';
 	player1Binds.moveRightBind = 'D';
-	players.at(1).SetBinds(player1Binds);
+	players.at(0).SetBinds(player1Binds);
 
 	players.emplace_back();
 	PlayerBinds player2Binds;

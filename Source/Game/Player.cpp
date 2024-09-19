@@ -9,8 +9,7 @@ Player::Player(PlayerBinds& playerBinds)
 	moveLeftState(false),
 	moveRightState(false)
 {
-	binds.moveLeftBind = 0x41;  // Q
-	binds.moveRightBind = 0x44; // D
+	binds = playerBinds;
 }
 
 void Player::SetBinds(const PlayerBinds& newBinds)
