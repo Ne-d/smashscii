@@ -6,18 +6,29 @@
 
 Engine::Engine()
 	:
-	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
-	hInput((HANDLE)GetStdHandle(STD_INPUT_HANDLE)),
+	hOutput(GetStdHandle(STD_OUTPUT_HANDLE)),
+	hInput(GetStdHandle(STD_INPUT_HANDLE)),
 
+	// Default size
 	dwBufferSize({ 160, 90 }),
 	rcRegion({0, 0, 160, 90}),
 	buffer(new CHAR_INFO[160 * 90]),
 
-	// Default size
 	begin(std::chrono::steady_clock::now()),
 	end(std::chrono::steady_clock::now()),
 	frameTime(0.001)
 {
+	SetConsoleWindowInfo(hOutput, FALSE, &rcRegion);
+}
+
+COORD Engine::GetScreenSize() const
+{
+	return dwBufferSize;
+}
+
+void Engine::SetDwBufferSize(const COORD& dwBufferSize)
+{
+	this->dwBufferSize = dwBufferSize;
 }
 
 Engine& Engine::GetInstance()
@@ -78,13 +89,13 @@ void Engine::Clear() const
 
 void Engine::SetScreenSize(const unsigned int x, const unsigned int y)
 {
+	dwBufferSize.X = x;
+	dwBufferSize.Y = y;
+	
 	rcRegion.Left = 0;
 	rcRegion.Top = 0;
 	rcRegion.Right = dwBufferSize.X - 1;
 	rcRegion.Bottom = dwBufferSize.Y - 1;
-
-	dwBufferSize.X = x;
-	dwBufferSize.Y = y;
 
 	SetConsoleScreenBufferSize(hOutput, dwBufferSize);
 
@@ -92,6 +103,8 @@ void Engine::SetScreenSize(const unsigned int x, const unsigned int y)
 
 	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
 		{ 0, 0 }, &rcRegion);
+
+	SetConsoleWindowInfo(hOutput, TRUE, &rcRegion);
 }
 
 void Engine::DrawImage(const Image& image, const COORD coords) const

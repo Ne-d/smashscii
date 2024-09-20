@@ -1,7 +1,7 @@
 #include "Engine/Engine.h"
 
-constexpr short ScreenWidth = 160;
-constexpr short ScreenHeight = 50;
+constexpr short ScreenWidth = 120;
+constexpr short ScreenHeight = 40;
 
 int main()
 {

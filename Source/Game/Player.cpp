@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include <iostream>
+#include <cmath>
 
 #include "../Engine/Engine.h"
 
@@ -28,6 +28,7 @@ void Player::SetTeam(WORD team)
 void Player::Update()
 {
 	UpdateInputState();
+	UpdateVelocity();
 	UpdatePosition();
 }
 
@@ -44,19 +45,66 @@ void Player::UpdateInputState()
 		moveRightState = false;
 }
 
-void Player::UpdatePosition()
+// Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
+float Lerp(const float startValue, const float endValue, const float factor)
 {
-	const double frameTime = Engine::GetInstance().GetDeltaTime();
-	
+	return startValue + (endValue - startValue) * factor;
+}
+
+// Adapted from from https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/.
+float Damp(const float startValue, const float endValue, const float lambda)
+{
+	return Lerp(startValue, endValue, 1 - std::exp(-lambda * Engine::GetInstance().GetDeltaTime()));
+}
+
+void Player::UpdateVelocity()
+{
 	if (moveLeftState && !moveRightState)
+		velocity.x = Damp(velocity.x, -targetSpeed, walkAcceleration);
+
+	else if (moveRightState && !moveLeftState)
+		velocity.x = Damp(velocity.x, targetSpeed, walkAcceleration);
+
+	else
+		velocity.x = Damp(velocity.x, 0, stopAcceleration);
+
+	velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
+}
+
+void Player::ApplyBounds()
+{
+	const COORD screenSize = Engine::GetInstance().GetScreenSize();
+
+	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
 	{
-		const Vector2D direction(-100, 0);
-		Move(direction * frameTime);
+		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
+		velocity.x = 0;
 	}
 
-	if (moveRightState && !moveLeftState)
+	if(GetPosition().x <= 0 && velocity.x < 0)
 	{
-		const Vector2D direction(100, 0);
-		Move(direction * frameTime);
+		SetPosition(0, GetPosition().y);
+		velocity.x = 0;
 	}
+
+	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
+	{
+		SetPosition(GetPosition().x, screenSize.Y - GetImage().GetSize().Y);
+		velocity.y = 0;
+		isOnGround = true;
+	}
+	else
+		isOnGround = false;
+
+	if(GetPosition().y <= 0 && velocity.y < 0)
+	{
+		SetPosition(GetPosition().x, 0);
+		velocity.y = 0;
+	}
+}
+
+void Player::UpdatePosition()
+{
+	Move(velocity * Engine::GetInstance().GetDeltaTime());
+	ApplyBounds();
 }
