@@ -20,11 +20,17 @@ public:
 	
 	void Update();
 	void UpdateInputState();
+	void UpdateVelocity();
 	void UpdatePosition();
 
 private:
 	PlayerBinds binds;
 
+	const float targetSpeed = 60.f;
+	const float walkAcceleration = 15.f;
+	const float stopAcceleration = 20.f;
+	Vector2D velocity;
+	
 	// Action states
 	bool moveLeftState;
 	bool moveRightState;

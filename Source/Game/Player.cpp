@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#include <iostream>
+#include <cmath>
 
 #include "../Engine/Engine.h"
 
@@ -28,6 +28,7 @@ void Player::SetTeam(WORD team)
 void Player::Update()
 {
 	UpdateInputState();
+	UpdateVelocity();
 	UpdatePosition();
 }
 
@@ -44,19 +45,31 @@ void Player::UpdateInputState()
 		moveRightState = false;
 }
 
+// Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
+float Lerp(const float startValue, const float endValue, const float factor)
+{
+	return startValue + (endValue - startValue) * factor;
+}
+
+// Adapted from from https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/.
+float Damp(float startValue, float endValue, float lambda)
+{
+	return Lerp(startValue, endValue, 1 - std::exp(-lambda * Engine::GetInstance().GetDeltaTime()));
+}
+
+void Player::UpdateVelocity()
+{
+	if (moveLeftState && !moveRightState)
+		velocity.x = Damp(velocity.x, -targetSpeed, walkAcceleration);
+
+	else if (moveRightState && !moveLeftState)
+		velocity.x = Damp(velocity.x, targetSpeed, walkAcceleration);
+
+	else
+		velocity.x = Damp(velocity.x, 0, stopAcceleration);
+}
+
 void Player::UpdatePosition()
 {
-	const double frameTime = Engine::GetInstance().GetDeltaTime();
-	
-	if (moveLeftState && !moveRightState)
-	{
-		const Vector2D direction(-100, 0);
-		Move(direction * frameTime);
-	}
-
-	if (moveRightState && !moveLeftState)
-	{
-		const Vector2D direction(100, 0);
-		Move(direction * frameTime);
-	}
+	Move(velocity * Engine::GetInstance().GetDeltaTime());
 }
