@@ -1,10 +1,11 @@
 #include "Vector2D.h"
 #include <cmath>
 
-Vector2D::Vector2D(float x, float y)
+Vector2D::Vector2D(const float x, const float y)
+	:
+	x(x),
+	y(y)
 {
-	this->x = x;
-	this->y = y;
 }
 
 COORD Vector2D::RoundToCoord() const
@@ -13,14 +14,6 @@ COORD Vector2D::RoundToCoord() const
 		static_cast<SHORT>(std::round(x)),
 		static_cast<SHORT>(std::round(y))
 	};
-}
-
-Vector2D& Vector2D::operator=(const Vector2D& vec)
-{
-	this->x = vec.x;
-	this->y = vec.y;
-
-	return *this;
 }
 
 Vector2D& Vector2D::operator+=(const Vector2D& vec)
@@ -55,48 +48,61 @@ Vector2D& Vector2D::operator/=(const Vector2D& vec)
 	return *this;
 }
 
+Vector2D& Vector2D::operator*=(const float& scalar)
+{
+	this->x *= scalar;
+	this->y *= scalar;
+	return *this;
+}
 
-Vector2D Vector2D::operator+(const Vector2D& vec)
+Vector2D& Vector2D::operator/=(const float& scalar)
+{
+	this->x /= scalar;
+	this->y /= scalar;
+	return *this;
+}
+
+Vector2D Vector2D::operator+(const Vector2D& vec) const
 {
 	Vector2D newVec;
-	
-	newVec.x = this->x + vec.x;
-	newVec.y = this->y + vec.y;
-
+	newVec += vec;
 	return newVec;
 }
 
 
-Vector2D Vector2D::operator-(const Vector2D& vec)
+Vector2D Vector2D::operator-(const Vector2D& vec) const
 {
 	Vector2D newVec;
-
-	newVec.x = this->x - vec.x;
-	newVec.y = this->y - vec.y;
-
+	newVec -= vec;
 	return newVec;
 }
 
 
-Vector2D Vector2D::operator*(const Vector2D& vec)
+Vector2D Vector2D::operator*(const Vector2D& vec) const
 {
 	Vector2D newVec;
-
-	newVec.x = this->x * vec.x;
-	newVec.y = this->y * vec.y;
-
+	newVec *= vec;
 	return newVec;
 }
 
 
-Vector2D Vector2D::operator/(const Vector2D& vec)
+Vector2D Vector2D::operator/(const Vector2D& vec) const
 {
 	Vector2D newVec;
-
-	newVec.x = this->x / vec.x;
-	newVec.y = this->y / vec.y;
-
+	newVec /= vec;
 	return newVec;
 }
 
+Vector2D Vector2D::operator*(const float& scalar) const
+{
+	Vector2D newVec;
+	newVec *= scalar;
+	return newVec;
+}
 
+Vector2D Vector2D::operator/(const float& scalar) const
+{
+	Vector2D newVec;
+	newVec /= scalar;
+	return newVec;
+}
