@@ -44,7 +44,7 @@ private:
 
 	std::chrono::steady_clock::time_point begin;
 	std::chrono::steady_clock::time_point end;
-	double frameTime;
+	float frameTime;
 
 	std::vector<DWORD> keyCodeList;
 };

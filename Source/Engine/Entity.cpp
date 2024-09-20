@@ -1,13 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(COORD size)
+Entity::Entity(const COORD size)
 	:
-	image(size),
-	position()
+	image(size)
 {
 }
 
-Entity::Entity(COORD size, Vector2D spawnPosition)
+Entity::Entity(const COORD size, const Vector2D spawnPosition)
 	:
 	image(size),
 	position(spawnPosition)
@@ -24,18 +23,18 @@ const Vector2D& Entity::GetPosition() const
 	return this->position;
 }
 
-void Entity::SetPosition(Vector2D& newPosition)
+void Entity::SetPosition(const Vector2D& newPosition)
 {
-	this->position = position;
+	this->position = newPosition;
 }
 
-void Entity::SetPosition(float x, float y)
+void Entity::SetPosition(const float x, const float y)
 {
 	this->position.x = x;
 	this->position.y = y;
 }
 
-void Entity::Move(Vector2D& direction)
+void Entity::Move(const Vector2D& direction)
 {
 	this->position += direction;
 }

@@ -64,7 +64,7 @@ Vector2D& Vector2D::operator/=(const float& scalar)
 
 Vector2D Vector2D::operator+(const Vector2D& vec) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec += vec;
 	return newVec;
 }
@@ -72,7 +72,7 @@ Vector2D Vector2D::operator+(const Vector2D& vec) const
 
 Vector2D Vector2D::operator-(const Vector2D& vec) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec -= vec;
 	return newVec;
 }
@@ -80,7 +80,7 @@ Vector2D Vector2D::operator-(const Vector2D& vec) const
 
 Vector2D Vector2D::operator*(const Vector2D& vec) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec *= vec;
 	return newVec;
 }
@@ -88,21 +88,21 @@ Vector2D Vector2D::operator*(const Vector2D& vec) const
 
 Vector2D Vector2D::operator/(const Vector2D& vec) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec /= vec;
 	return newVec;
 }
 
 Vector2D Vector2D::operator*(const float& scalar) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec *= scalar;
 	return newVec;
 }
 
 Vector2D Vector2D::operator/(const float& scalar) const
 {
-	Vector2D newVec;
+	Vector2D newVec(*this);
 	newVec /= scalar;
 	return newVec;
 }

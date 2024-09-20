@@ -16,7 +16,7 @@ Engine::Engine()
 	// Default size
 	begin(std::chrono::steady_clock::now()),
 	end(std::chrono::steady_clock::now()),
-	frameTime(1)
+	frameTime(0.001)
 {
 }
 
@@ -49,9 +49,10 @@ void Engine::MainLoop()
 
 		Flush();
 
-		frameTime = (begin - end).count() / 1'000'000.f;
-
-		std::this_thread::sleep_until(begin + std::chrono::milliseconds(16));
+		// Chrono's duration cast only allows us to get an integral value with count()
+		// so we do the conversion manually. 
+		frameTime = (begin - end).count() / 1'000'000'000.f;
+		
 		end = begin;
 	}
 }

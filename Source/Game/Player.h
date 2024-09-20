@@ -1,6 +1,8 @@
 #pragma once
+
+#include <windows.h>
+
 #include "../Engine/Entity.h"
-#include <Windows.h>
 
 struct PlayerBinds
 {
