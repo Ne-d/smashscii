@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "../Engine/Engine.h"
 
-Player::Player(const unsigned int x, const unsigned int y, const PlayerBinds binds, const WORD team)
+Player::Player(const float x, const float y, const PlayerBinds binds, const WORD team)
 	:
 	Entity(COORD{ 3, 3 }, Vector2D(x, y)),
 	binds(binds),

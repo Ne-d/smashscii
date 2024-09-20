@@ -14,9 +14,9 @@ Engine::Engine()
 	buffer(new CHAR_INFO[160 * 90]),
 
 	// Default size
-	timePoint(std::chrono::steady_clock::now()),
-	previousTimePoint(std::chrono::steady_clock::now()),
-	frameTime(std::chrono::milliseconds(1))
+	begin(std::chrono::steady_clock::now()),
+	end(std::chrono::steady_clock::now()),
+	frameTime(1)
 {
 }
 
@@ -31,21 +31,9 @@ void Engine::MainLoop()
 {
 	Game game;
 
-	COORD imageSize = { 3, 3 };
-	Image image(imageSize);
-	image.SetChar(0, 0, { ' ',  0x0E });
-	image.SetChar(1, 0, { 'O',  0x0E });
-	image.SetChar(2, 0, { ' ',  0x0E });
-	image.SetChar(0, 1, { '-',  0x0E });
-	image.SetChar(1, 1, { '|',  0x0E });
-	image.SetChar(2, 1, { '-',  0x0E });
-	image.SetChar(0, 2, { '/',  0x0E });
-	image.SetChar(1, 2, { ' ',  0x0E });
-	image.SetChar(2, 2, { '\\', 0x0E });
-
 	while (true)
 	{
-		timePoint = std::chrono::steady_clock::now();
+		begin = std::chrono::steady_clock::now();
 		
         // INPUTS
 		ReadInputs();
@@ -55,24 +43,16 @@ void Engine::MainLoop()
         
         // RENDERING
 		Clear();
-
-		/*DrawImage(image, {x, 0});
-		x++;
-		x = x % 160;
-		*/
-
-		unsigned int i = 0;
+		
 		for (const Player* player : game.GetPlayers())
 			DrawPlayer(*player);
 
 		Flush();
 
-        frameTime = (timePoint - previousTimePoint);
-		//auto frameRate = 1000'000'000 / (std::chrono::duration_cast<std::chrono::nanoseconds>(frameTime).count());
+		frameTime = (begin - end).count() / 1'000'000.f;
 
-		std::this_thread::sleep_until(timePoint + std::chrono::milliseconds(1));
-		
-		previousTimePoint = timePoint;
+		std::this_thread::sleep_until(begin + std::chrono::milliseconds(16));
+		end = begin;
 	}
 }
 
@@ -124,7 +104,7 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	}
 }
 
-void Engine::DrawPlayer(const Player& player)
+void Engine::DrawPlayer(const Player& player) const
 {
 	constexpr COORD imageSize = { 3, 3 };
 	Image image(imageSize);
@@ -147,7 +127,7 @@ void Engine::DrawPlayer(const Player& player)
 
 double Engine::GetDeltaTime() const
 {
-	return frameTime.count() / 1'000'000.0; // frameTime is in nanoseconds, we return milliseconds.
+	return frameTime; // frameTime is in nanoseconds, we return milliseconds.
 }
 
 void Engine::ReadInputs()
@@ -189,8 +169,8 @@ bool Engine::IsKeyDown(const DWORD key)
 
 	return GetKeyState(key) & 0x8000; //Check if high-order bit is set (1 << 15)
 
-	// The suggested API with (ReadConsoleInput) seems to only count keys as pressed for a single frame,
-	// then repeats automatically after a delay.
-	// This is suitable for text input, but not continuous character movement.
-	// Because of this, we use a different input system, that is still part of the Windows API.
+	/* The suggested API (with ReadConsoleInput) seems to only count keys as pressed for a single frame,
+	   then repeats automatically after a delay.
+	   This is suitable for text input, but not continuous character movement.
+	   Because of this, we use a different input system, that is still part of the Windows API. */
 }

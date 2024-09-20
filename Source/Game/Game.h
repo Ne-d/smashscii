@@ -14,7 +14,7 @@ public:
 	Player& GetPlayer(const int number);
 	const std::vector<Player*>& GetPlayers() const;
 
-	void AddPlayer(int x, int y, PlayerBinds binds, unsigned int teamNb);
+	void AddPlayer(float x, float y, PlayerBinds binds, unsigned int teamNb);
 	void AddTeam(WORD attributes);
 
 private:

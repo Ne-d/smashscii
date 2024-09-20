@@ -11,8 +11,8 @@ class Engine
 {
 public: // Methods
 	
-static Engine& GetInstance();
-
+	static Engine& GetInstance();
+	
 	void MainLoop();
 	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character) const;
 	void Flush();
@@ -21,7 +21,7 @@ static Engine& GetInstance();
 	void SetScreenSize(unsigned int x, unsigned int y);
 	
 	void DrawImage(const Image& image, COORD coords) const;
-	void DrawPlayer(const Player& player);
+	void DrawPlayer(const Player& player) const;
 
 	double GetDeltaTime() const;
 
@@ -30,8 +30,8 @@ static Engine& GetInstance();
 
 	static bool IsKeyDown(DWORD key);
 
-private: // Constructor, because Singleton
-	Engine();
+private:
+	Engine(); // Constructor is private, because Singleton thingies.
 
 	// Data
 	HANDLE hOutput;
@@ -42,9 +42,9 @@ private: // Constructor, because Singleton
 
 	CHAR_INFO* buffer;
 
-	std::chrono::steady_clock::time_point timePoint;
-	std::chrono::steady_clock::time_point previousTimePoint;
-	std::chrono::nanoseconds frameTime;
+	std::chrono::steady_clock::time_point begin;
+	std::chrono::steady_clock::time_point end;
+	double frameTime;
 
 	std::vector<DWORD> keyCodeList;
 };

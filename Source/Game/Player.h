@@ -1,9 +1,6 @@
 #pragma once
 #include "../Engine/Entity.h"
-#include <map>
 #include <Windows.h>
-#include <vector>
-#include <functional>
 
 struct PlayerBinds
 {
@@ -14,9 +11,9 @@ struct PlayerBinds
 class Player : public Entity
 {
 public:
-	Player(unsigned int x = 0, unsigned int y = 0, PlayerBinds binds = {'Q', 'D'}, WORD team = 0);
+	explicit Player(float x = 0, float y = 0, PlayerBinds binds = {'Q', 'D'}, WORD team = 0);
 
-	void SetBinds(const PlayerBinds newBinds);
+	void SetBinds(PlayerBinds newBinds);
 	void SetTeam(WORD team);
 	
 	void Update();
