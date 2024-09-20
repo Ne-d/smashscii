@@ -30,6 +30,9 @@ public: // Methods
 
 	static bool IsKeyDown(DWORD key);
 
+	COORD GetScreenSize() const;
+	void SetDwBufferSize(const COORD& dwBufferSize);
+
 private:
 	Engine(); // Constructor is private, because Singleton thingies.
 
