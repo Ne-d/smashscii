@@ -6,8 +6,8 @@
 
 Engine::Engine()
 	:
-	hOutput((HANDLE)GetStdHandle(STD_OUTPUT_HANDLE)),
-	hInput((HANDLE)GetStdHandle(STD_INPUT_HANDLE)),
+	hOutput(GetStdHandle(STD_OUTPUT_HANDLE)),
+	hInput(GetStdHandle(STD_INPUT_HANDLE)),
 
 	dwBufferSize({ 160, 90 }),
 	rcRegion({0, 0, 160, 90}),
