@@ -9,6 +9,7 @@ public:
 	Entity() = delete;
 	Entity(COORD size);
 	Entity(COORD size, Vector2D spawnPosition);
+	Entity(Vector2D spawnPosition, std::string filename, WORD color);
 
 	Image& GetImage();
 
