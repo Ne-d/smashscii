@@ -25,7 +25,7 @@ const std::vector<Player*>& Game::GetPlayers() const
 	return players;
 }
 
-void Game::AddPlayer(int x, int y, PlayerBinds binds, unsigned int teamNb)
+void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const unsigned int teamNb)
 {
 	players.push_back(new Player(x, y, binds, teams.at(teamNb)));
 }

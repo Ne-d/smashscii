@@ -1,5 +1,6 @@
 #pragma once
-#include <Windows.h>
+
+#include <windows.h>
 
 class Vector2D
 {
@@ -9,19 +10,24 @@ public:
 
 	float x = 0.f;
 	float y = 0.f;
-
-public:
+	
 	COORD RoundToCoord() const;
 
-	Vector2D& operator=(const Vector2D& vec);
+	// Operators
+	Vector2D& operator=(const Vector2D& vec) = default;
 	Vector2D& operator+=(const Vector2D& vec);
 	Vector2D& operator-=(const Vector2D& vec);
 	Vector2D& operator*=(const Vector2D& vec);
 	Vector2D& operator/=(const Vector2D& vec);
 
-	Vector2D operator+(const Vector2D& vec);
-	Vector2D operator-(const Vector2D& vec);
-	Vector2D operator*(const Vector2D& vec);
-	Vector2D operator/(const Vector2D& vec);
-};
+	Vector2D& operator*=(const float& scalar);
+	Vector2D& operator/=(const float& scalar);
+	
+	Vector2D operator+(const Vector2D& vec) const;
+	Vector2D operator-(const Vector2D& vec) const;
+	Vector2D operator*(const Vector2D& vec) const;
+	Vector2D operator/(const Vector2D& vec) const;
 
+	Vector2D operator*(const float& scalar) const;
+	Vector2D operator/(const float& scalar) const;
+};

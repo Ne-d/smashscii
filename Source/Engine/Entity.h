@@ -13,9 +13,9 @@ public:
 	Image& GetImage();
 
 	const Vector2D& GetPosition() const; // TODO: Check this doesn't return a reference to a local variable
-	void SetPosition(Vector2D& newPosition);
+	void SetPosition(const Vector2D& newPosition);
 	void SetPosition(float x, float y);
-	void Move(Vector2D& direction);
+	void Move(const Vector2D& direction);
 
 private:
 	Image image;
