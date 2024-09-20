@@ -1,2 +1,3 @@
 - Destructeurs (Engine)
 - QUESTION: Move(ref) ou Move(copy)?
+- Fix crash on certain screen / buffer sizes.

@@ -52,7 +52,7 @@ float Lerp(const float startValue, const float endValue, const float factor)
 }
 
 // Adapted from from https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/.
-float Damp(float startValue, float endValue, float lambda)
+float Damp(const float startValue, const float endValue, const float lambda)
 {
 	return Lerp(startValue, endValue, 1 - std::exp(-lambda * Engine::GetInstance().GetDeltaTime()));
 }
@@ -67,9 +67,44 @@ void Player::UpdateVelocity()
 
 	else
 		velocity.x = Damp(velocity.x, 0, stopAcceleration);
+
+	velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
+}
+
+void Player::ApplyBounds()
+{
+	const COORD screenSize = Engine::GetInstance().GetScreenSize();
+
+	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
+	{
+		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
+		velocity.x = 0;
+	}
+
+	if(GetPosition().x <= 0 && velocity.x < 0)
+	{
+		SetPosition(0, GetPosition().y);
+		velocity.x = 0;
+	}
+
+	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
+	{
+		SetPosition(GetPosition().x, screenSize.Y - GetImage().GetSize().Y);
+		velocity.y = 0;
+		isOnGround = true;
+	}
+	else
+		isOnGround = false;
+
+	if(GetPosition().y <= 0 && velocity.y < 0)
+	{
+		SetPosition(GetPosition().x, 0);
+		velocity.y = 0;
+	}
 }
 
 void Player::UpdatePosition()
 {
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
+	ApplyBounds();
 }
