@@ -6,7 +6,7 @@
 
 Player::Player(const float x, const float y, const PlayerBinds binds, const WORD team)
 	:
-	Entity(Vector2D(x, y), "Player.txt", team),
+	Entity(Vector2D(x, y), "./Textures/Player.txt", team),
 	binds(binds),
 	moveLeftState(false),
 	moveRightState(false),

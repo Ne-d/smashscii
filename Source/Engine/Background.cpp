@@ -46,7 +46,7 @@ void Background::LoadCollisionFromFile(std::string collisionFilename)
 	int lineCount = 0;
 	while (std::getline(fstrm, fileLine))
 	{
-		for (int i = 0; i < fileLine.length() - 1; ++i)
+		for (int i = 0; i < fileLine.length(); ++i)
 		{
 			if (fileLine[i] != ' ')
 			{

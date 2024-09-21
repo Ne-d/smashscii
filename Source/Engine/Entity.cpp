@@ -18,7 +18,7 @@ Entity::Entity(const Vector2D spawnPosition, std::string filename, WORD color) :
 
 }
 
-Image& Entity::GetImage()
+const Image& Entity::GetImage() const
 {
 	return this->image;
 }
