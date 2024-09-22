@@ -70,7 +70,8 @@ void Engine::MainLoop()
 
 void Engine::WriteToBuffer(const unsigned int x, const unsigned int y, const CHAR_INFO character) const
 {
-	buffer[x + y * dwBufferSize.X] = character;
+	if(x < dwBufferSize.X && y < dwBufferSize.Y)
+		buffer[x + y * dwBufferSize.X] = character;
 }
 
 void Engine::Flush()
@@ -113,8 +114,7 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	{
 		for (int x = 0; x < image.GetSize().X; ++x)
 		{
-			if(coords.X >= 0 && coords.X < dwBufferSize.X && coords.Y >= 0 && coords.Y < dwBufferSize.Y)
-				WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
+			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
 		}
 	}
 }
