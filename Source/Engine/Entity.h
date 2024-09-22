@@ -11,9 +11,9 @@ public:
 	Entity(COORD size, Vector2D spawnPosition);
 	Entity(Vector2D spawnPosition, std::string filename, WORD color);
 
-	const Image& GetImage() const;
+	virtual const Image& GetImage() const;
 
-	const Vector2D& GetPosition() const; // TODO: Check this doesn't return a reference to a local variable
+	const Vector2D& GetPosition() const;
 	void SetPosition(const Vector2D& newPosition);
 	void SetPosition(float x, float y);
 	void Move(const Vector2D& direction);

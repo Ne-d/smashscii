@@ -40,24 +40,22 @@ Engine& Engine::GetInstance()
 
 void Engine::MainLoop()
 {
-	Game game;
-
 	while (true)
 	{
 		begin = std::chrono::steady_clock::now();
+
+		// RENDERING
+		Clear();
 		
         // INPUTS
 		ReadInputs();
         
         // GAME CODE
 		game.Update();
-        
-        // RENDERING
-		Clear();
 		
 		for (const Player* player : game.GetPlayers())
 			DrawPlayer(*player);
-
+		
 		Flush();
 
 		// Chrono's duration cast only allows us to get an integral value with count()
@@ -113,36 +111,31 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	for (int y = 0; y < image.GetSize().Y; ++y)
 	{
 		for (int x = 0; x < image.GetSize().X; ++x)
-		{
 			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
-		}
 	}
 }
 
 void Engine::DrawPlayer(const Player& player) const
 {
-	/*constexpr COORD imageSize = {3, 3};
-	Image image(imageSize);
-	image.SetChar(0, 0, { ' ',  0x0E });
-	image.SetChar(1, 0, { 'O',  0x0E });
-	image.SetChar(2, 0, { ' ',  0x0E });
-	image.SetChar(0, 1, { '-',  0x0E });
-	image.SetChar(1, 1, { '|',  0x0E });
-	image.SetChar(2, 1, { '-',  0x0E });
-	image.SetChar(0, 2, { '/',  0x0E });
-	image.SetChar(1, 2, { ' ',  0x0E });
-	image.SetChar(2, 2, { '\\', 0x0E });*/
-
 	DrawImage(player.GetImage(), player.GetPosition().RoundToCoord());
-	
-	/*std::cout << "Player coordinates: " << player.GetPosition().x << " (" << player.GetPosition().RoundToCoord().X << "), "
-		<< player.GetPosition().y << " (" << player.GetPosition().RoundToCoord().Y << ")"
-		<< std::endl;*/
 }
 
-double Engine::GetDeltaTime() const
+void Engine::WriteText(const std::wstring& text, const COORD coords, const WORD attributes) const
+{
+	for (int i = 0; i < text.length(); ++i)
+	{
+		WriteToBuffer(coords.X + i, coords.Y, CHAR_INFO{text.at(i), attributes});
+	}
+}
+
+float Engine::GetDeltaTime() const
 {
 	return frameTime; // frameTime is in nanoseconds, we return milliseconds.
+}
+
+Game& Engine::GetGame()
+{
+	return game;
 }
 
 void Engine::ReadInputs()
