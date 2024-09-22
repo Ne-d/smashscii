@@ -11,10 +11,10 @@ public:
 	Entity(COORD size, Vector2D spawnPosition);
 	Entity(Vector2D spawnPosition, std::string filename, WORD color);
 
-	virtual const Image& GetImage() const;
+	virtual Image& GetImage();
 
 	const Vector2D& GetPosition() const;
-	void SetPosition(const Vector2D& newPosition);
+	void SetPosition(const Vector2D newPosition);
 	void SetPosition(float x, float y);
 	void Move(const Vector2D direction);
 	void ReturnToSpawnPosition();

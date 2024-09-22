@@ -21,8 +21,8 @@ public: // Methods
 
 	void SetScreenSize(unsigned int x, unsigned int y);
 	
-	void DrawImage(const Image& image, COORD coords) const;
-	void DrawPlayer(const Player& player) const;
+	void DrawImage(Image& image, COORD coords) const;
+	void DrawPlayer(Player& player) const;
 	void WriteText(const std::wstring& text, COORD coords, WORD attributes) const;
 
 	float GetDeltaTime() const;

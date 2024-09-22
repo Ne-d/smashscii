@@ -4,7 +4,7 @@ class Projectile : public Entity
 {
 public:
 	Projectile() = delete;
-	explicit Projectile(float x = 0, float y = 0, WORD team = 0, bool isVisible);
+	explicit Projectile(float x = 0, float y = 0, WORD team = 0, bool isVisible = false);
 	~Projectile();
 
 	void Update();

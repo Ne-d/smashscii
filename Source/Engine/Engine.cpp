@@ -53,7 +53,7 @@ void Engine::MainLoop()
         // GAME CODE
 		game.Update();
 		
-		for (const Player* player : game.GetPlayers())
+		for (Player* player : game.GetPlayers())
 			DrawPlayer(*player);
 		
 		Flush();
@@ -106,7 +106,7 @@ void Engine::SetScreenSize(const unsigned int x, const unsigned int y)
 	SetConsoleWindowInfo(hOutput, TRUE, &rcRegion);
 }
 
-void Engine::DrawImage(const Image& image, const COORD coords) const
+void Engine::DrawImage(Image& image, const COORD coords) const
 {
 	for (int y = 0; y < image.GetSize().Y; ++y)
 	{
@@ -115,7 +115,7 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	}
 }
 
-void Engine::DrawPlayer(const Player& player) const
+void Engine::DrawPlayer(Player& player) const
 {
 	DrawImage(player.GetImage(), player.GetPosition().RoundToCoord());
 }

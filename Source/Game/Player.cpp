@@ -187,11 +187,7 @@ void Player::TakeDamage(const int damage)
 
 void Player::FireProjectile()
 {
-	Vector2D projectileVelocity;
-	if (isAimingRight)
-		projectileVelocity = Vector2D(1.f * projectileSpeed, 0);
-	else
-		projectileVelocity = Vector2D(-1.f * projectileSpeed, 0);
+	Vector2D projectileVelocity = Vector2D(lastDirection * projectileSpeed, 0);
 
 	this->projectile.Fire(GetPosition(), projectileVelocity);
 }
