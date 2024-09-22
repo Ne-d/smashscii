@@ -34,15 +34,20 @@ void Player::Update()
 
 void Player::UpdateInputState()
 {
-	if (Engine::IsKeyDown(binds.moveLeftBind))
+	if (Engine::IsKeyDown(binds.moveLeft))
 		moveLeftState = true;
 	else
 		moveLeftState = false;
 
-	if (Engine::IsKeyDown(binds.moveRightBind))
+	if (Engine::IsKeyDown(binds.moveRight))
 		moveRightState = true;
 	else
 		moveRightState = false;
+
+	if(Engine::IsKeyDown(binds.jump))
+		jumpState = true;
+	else
+		jumpState = false;
 }
 
 // Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
@@ -69,23 +74,30 @@ void Player::UpdateVelocity()
 		velocity.x = Damp(velocity.x, 0, stopAcceleration);
 
 	velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
+
+	if (jumpState && isOnGround)
+	{
+		velocity.y = jumpVelocity;
+	}
 }
 
 void Player::ApplyBounds()
 {
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
-	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
+	// Right screen bound
+	/*if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
 	{
 		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
 		velocity.x = 0;
 	}
 
+	// Left screen bound
 	if(GetPosition().x <= 0 && velocity.x < 0)
 	{
 		SetPosition(0, GetPosition().y);
 		velocity.x = 0;
-	}
+	}*/
 
 	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
 	{

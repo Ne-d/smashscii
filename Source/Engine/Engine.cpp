@@ -113,7 +113,8 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	{
 		for (int x = 0; x < image.GetSize().X; ++x)
 		{
-			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
+			if(coords.X >= 0 && coords.X < dwBufferSize.X && coords.Y >= 0 && coords.Y < dwBufferSize.Y)
+				WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
 		}
 	}
 }
