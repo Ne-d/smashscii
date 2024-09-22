@@ -10,6 +10,10 @@ Player::Player(const float x, const float y, const PlayerBinds binds, const WORD
 	binds(binds),
 	moveLeftState(false),
 	moveRightState(false),
+	direction(0),
+	lastDirection(1),
+	jumpState(false),
+	attackState(false),
 	team(team)
 {
 	SetPosition(x, y);
@@ -20,9 +24,19 @@ void Player::SetBinds(const PlayerBinds newBinds)
 	this->binds = newBinds;
 }
 
-void Player::SetTeam(WORD team)
+void Player::SetTeam(const WORD team)
 {
 	this->team = team;
+}
+
+int Player::GetHealth() const
+{
+	return health;
+}
+
+WORD Player::GetTeam() const
+{
+	return team;
 }
 
 void Player::Update()
@@ -34,36 +48,26 @@ void Player::Update()
 
 void Player::UpdateInputState()
 {
-	if (Engine::IsKeyDown(binds.moveLeft))
-		moveLeftState = true;
-	else
-		moveLeftState = false;
+	moveLeftState = Engine::IsKeyDown(binds.moveLeft);
 
-	if (Engine::IsKeyDown(binds.moveRight))
-		moveRightState = true;
-	else
-		moveRightState = false;
+	moveRightState = Engine::IsKeyDown(binds.moveRight);
 
 	// 1 if we are moving right, -1 if we are moving left, and 0 if we are not moving, or pressing both directions at once.
-	direction = moveRightState - moveLeftState;
+	direction = static_cast<int>(moveRightState) - static_cast<int>(moveLeftState);
 
 	// Used to keep a direction to attack, even when not moving.
 	if(direction != 0)
 		lastDirection = direction;
 
-	if(Engine::IsKeyDown(binds.jump))
-		jumpState = true;
-	else
-		jumpState = false;
+	jumpState = Engine::IsKeyDown(binds.jump);
 
-	if(Engine::IsKeyDown(binds.attack) && attackState == false)
+	if(!attackState && Engine::IsKeyDown(binds.attack))
 	{
 		attackState = true;
 		TryAttack();
 	}
-	else
+	if(!Engine::IsKeyDown(binds.attack))
 		attackState = false;
-	
 }
 
 // Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
@@ -133,9 +137,9 @@ void Player::UpdatePosition()
 	ApplyBounds();
 }
 
-void Player::TryAttack()
+void Player::TryAttack() const
 {
-	std::vector<Player*> players = Engine::GetInstance().GetGame().GetPlayers();
+	std::vector<Player*> const players = Engine::GetInstance().GetGame().GetPlayers();
 
 	Player* playerToAttack = nullptr;
 	
@@ -144,27 +148,30 @@ void Player::TryAttack()
 		// If we are moving right, check if the player is to our right, and within range.
 		if(lastDirection == 1)
 		{
-			if(player->GetPosition().x > GetPosition().x && player->GetPosition().x < GetPosition().x + attackRange)
+			if(player->GetPosition().x > GetPosition().x && player->GetPosition().x < GetPosition().x + horizontalAttackRange)
 			{
 				playerToAttack = player;
 				break;
 			}
 		}
+		// If we are moving left, check if the player is to our left, adn within range.
 		else if(lastDirection == -1)
 		{
-			if(player->GetPosition().x < GetPosition().x && player->GetPosition().x > GetPosition().x - attackRange)
+			if(player->GetPosition().x < GetPosition().x && player->GetPosition().x > GetPosition().x - horizontalAttackRange)
 			{
 				playerToAttack = player;
 				break;
 			}
 		}
 	}
-
-	if (playerToAttack != nullptr)
-		Attack(playerToAttack);
+	
+	if (playerToAttack != nullptr
+		&& playerToAttack->GetPosition().y >= GetPosition().y - verticalAttackRange
+		&& playerToAttack->GetPosition().y <= GetPosition().y + verticalAttackRange)
+		playerToAttack->TakeDamage(attackDamage);
 }
 
-void Player::Attack(Player* player)
+void Player::TakeDamage(const int damage)
 {
-	exit(42);
+	health -= damage;
 }

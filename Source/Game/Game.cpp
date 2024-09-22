@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "../Engine/Engine.h"
 
 Game::Game()
 {
@@ -13,6 +14,8 @@ void Game::Update()
 {
 	for (Player* player : players)
 		player->Update();
+
+	DrawPlayerHealth();
 }
 
 Player& Game::GetPlayer(const int number)
@@ -33,4 +36,16 @@ void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, cons
 void Game::AddTeam(WORD attributes)
 {
 	teams.push_back(attributes);
+}
+
+void Game::DrawPlayerHealth() const
+{
+	for (unsigned int i = 0; i < players.size(); ++i)
+	{
+		std::wstring const text = L"Player " + std::to_wstring(i) + L" health: "
+								  + std::to_wstring(players.at(i)->GetHealth());
+		
+		short const xCoord = static_cast<short>(i) * 50;
+		Engine::GetInstance().WriteText(text, COORD{xCoord, 0}, players.at(i)->GetTeam());
+	}
 }

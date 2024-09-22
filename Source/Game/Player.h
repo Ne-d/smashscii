@@ -19,6 +19,9 @@ public:
 
 	void SetBinds(PlayerBinds newBinds);
 	void SetTeam(WORD team);
+
+	int GetHealth() const;
+	WORD GetTeam() const;
 	
 	void Update();
 	void UpdateInputState();
@@ -26,8 +29,8 @@ public:
 	void ApplyBounds();
 	void UpdatePosition();
 	
-	void TryAttack();
-	void Attack(Player* player);
+	void TryAttack() const;
+	void TakeDamage(int damage);
 
 private:
 	PlayerBinds binds;
@@ -42,13 +45,15 @@ private:
 
 	const float jumpVelocity = -100.f;
 
-	const int attackRange = 10;
+	const float horizontalAttackRange = 10.f;
+	const float verticalAttackRange = 5.f;
 
 	// Movement variables
 	Vector2D velocity;
 	bool isOnGround = false;
 
 	int health = 100;
+	const int attackDamage = 5;
 	
 	// Action states
 	bool moveLeftState;

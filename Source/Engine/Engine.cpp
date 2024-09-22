@@ -43,19 +43,19 @@ void Engine::MainLoop()
 	while (true)
 	{
 		begin = std::chrono::steady_clock::now();
+
+		// RENDERING
+		Clear();
 		
         // INPUTS
 		ReadInputs();
         
         // GAME CODE
 		game.Update();
-        
-        // RENDERING
-		Clear();
 		
 		for (const Player* player : game.GetPlayers())
 			DrawPlayer(*player);
-
+		
 		Flush();
 
 		// Chrono's duration cast only allows us to get an integral value with count()
@@ -111,9 +111,7 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 	for (int y = 0; y < image.GetSize().Y; ++y)
 	{
 		for (int x = 0; x < image.GetSize().X; ++x)
-		{
 			WriteToBuffer(x + coords.X, y + coords.Y, image.GetChar(x, y));
-		}
 	}
 }
 
@@ -122,7 +120,15 @@ void Engine::DrawPlayer(const Player& player) const
 	DrawImage(player.GetImage(), player.GetPosition().RoundToCoord());
 }
 
-double Engine::GetDeltaTime() const
+void Engine::WriteText(const std::wstring& text, const COORD coords, const WORD attributes) const
+{
+	for (int i = 0; i < text.length(); ++i)
+	{
+		WriteToBuffer(coords.X + i, coords.Y, CHAR_INFO{text.at(i), attributes});
+	}
+}
+
+float Engine::GetDeltaTime() const
 {
 	return frameTime; // frameTime is in nanoseconds, we return milliseconds.
 }
