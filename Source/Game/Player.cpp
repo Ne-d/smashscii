@@ -11,6 +11,10 @@ Player::Player(const float x, const float y, const PlayerBinds binds, const WORD
 	binds(binds),
 	moveLeftState(false),
 	moveRightState(false),
+	direction(0),
+	lastDirection(1),
+	jumpState(false),
+	attackState(false),
 	team(team)
 {
 	SetPosition(x, y);
@@ -21,9 +25,19 @@ void Player::SetBinds(const PlayerBinds newBinds)
 	this->binds = newBinds;
 }
 
-void Player::SetTeam(WORD team)
+void Player::SetTeam(const WORD team)
 {
 	this->team = team;
+}
+
+int Player::GetHealth() const
+{
+	return health;
+}
+
+WORD Player::GetTeam() const
+{
+	return team;
 }
 
 void Player::Update()
@@ -35,15 +49,26 @@ void Player::Update()
 
 void Player::UpdateInputState()
 {
-	if (Engine::IsKeyDown(binds.moveLeftBind))
-		moveLeftState = true;
-	else
-		moveLeftState = false;
+	moveLeftState = Engine::IsKeyDown(binds.moveLeft);
 
-	if (Engine::IsKeyDown(binds.moveRightBind))
-		moveRightState = true;
-	else
-		moveRightState = false;
+	moveRightState = Engine::IsKeyDown(binds.moveRight);
+
+	// 1 if we are moving right, -1 if we are moving left, and 0 if we are not moving, or pressing both directions at once.
+	direction = static_cast<int>(moveRightState) - static_cast<int>(moveLeftState);
+
+	// Used to keep a direction to attack, even when not moving.
+	if(direction != 0)
+		lastDirection = direction;
+
+	jumpState = Engine::IsKeyDown(binds.jump);
+
+	if(!attackState && Engine::IsKeyDown(binds.attack))
+	{
+		attackState = true;
+		TryAttack();
+	}
+	if(!Engine::IsKeyDown(binds.attack))
+		attackState = false;
 
 	if (Engine::IsKeyDown(binds.projectileAttack))
 	{
@@ -68,33 +93,36 @@ float Damp(const float startValue, const float endValue, const float lambda)
 
 void Player::UpdateVelocity()
 {
-	if (moveLeftState && !moveRightState)
-		velocity.x = Damp(velocity.x, -targetSpeed, walkAcceleration);
-
-	else if (moveRightState && !moveLeftState)
-		velocity.x = Damp(velocity.x, targetSpeed, walkAcceleration);
-
+	if (direction != 0)
+		velocity.x = Damp(velocity.x, targetSpeed * direction, walkAcceleration);
 	else
 		velocity.x = Damp(velocity.x, 0, stopAcceleration);
 
 	velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
+
+	if (jumpState && isOnGround)
+	{
+		velocity.y = jumpVelocity;
+	}
 }
 
 void Player::ApplyBounds()
 {
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
-	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
+	// Right screen bound
+	/*if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
 	{
 		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
 		velocity.x = 0;
 	}
 
+	// Left screen bound
 	if(GetPosition().x <= 0 && velocity.x < 0)
 	{
 		SetPosition(0, GetPosition().y);
 		velocity.x = 0;
-	}
+	}*/
 
 	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
 	{
@@ -116,6 +144,45 @@ void Player::UpdatePosition()
 {
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
 	ApplyBounds();
+}
+
+void Player::TryAttack() const
+{
+	std::vector<Player*> const players = Engine::GetInstance().GetGame().GetPlayers();
+
+	Player* playerToAttack = nullptr;
+	
+	for (Player* const player : players)
+	{
+		// If we are moving right, check if the player is to our right, and within range.
+		if(lastDirection == 1)
+		{
+			if(player->GetPosition().x > GetPosition().x && player->GetPosition().x < GetPosition().x + horizontalAttackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+		// If we are moving left, check if the player is to our left, adn within range.
+		else if(lastDirection == -1)
+		{
+			if(player->GetPosition().x < GetPosition().x && player->GetPosition().x > GetPosition().x - horizontalAttackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+	}
+	
+	if (playerToAttack != nullptr
+		&& playerToAttack->GetPosition().y >= GetPosition().y - verticalAttackRange
+		&& playerToAttack->GetPosition().y <= GetPosition().y + verticalAttackRange)
+		playerToAttack->TakeDamage(attackDamage);
+}
+
+void Player::TakeDamage(const int damage)
+{
+	health -= damage;
 }
 
 void Player::FireProjectile()
