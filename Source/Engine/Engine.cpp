@@ -40,8 +40,6 @@ Engine& Engine::GetInstance()
 
 void Engine::MainLoop()
 {
-	Game game;
-
 	while (true)
 	{
 		begin = std::chrono::steady_clock::now();
@@ -143,6 +141,11 @@ void Engine::DrawPlayer(const Player& player) const
 double Engine::GetDeltaTime() const
 {
 	return frameTime; // frameTime is in nanoseconds, we return milliseconds.
+}
+
+Game& Engine::GetGame()
+{
+	return game;
 }
 
 void Engine::ReadInputs()

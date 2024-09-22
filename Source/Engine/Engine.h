@@ -6,6 +6,7 @@
 
 #include "Image.h"
 #include "../Game/Player.h"
+#include "../Game/Game.h"
 
 class Engine
 {
@@ -24,6 +25,7 @@ public: // Methods
 	void DrawPlayer(const Player& player) const;
 
 	double GetDeltaTime() const;
+	Game& GetGame();
 
 	void ReadInputs();
 	std::vector<DWORD> GetInputs();
@@ -50,4 +52,6 @@ private:
 	float frameTime;
 
 	std::vector<DWORD> keyCodeList;
+
+	Game game;
 };

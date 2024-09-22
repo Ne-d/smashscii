@@ -44,10 +44,26 @@ void Player::UpdateInputState()
 	else
 		moveRightState = false;
 
+	// 1 if we are moving right, -1 if we are moving left, and 0 if we are not moving, or pressing both directions at once.
+	direction = moveRightState - moveLeftState;
+
+	// Used to keep a direction to attack, even when not moving.
+	if(direction != 0)
+		lastDirection = direction;
+
 	if(Engine::IsKeyDown(binds.jump))
 		jumpState = true;
 	else
 		jumpState = false;
+
+	if(Engine::IsKeyDown(binds.attack) && attackState == false)
+	{
+		attackState = true;
+		TryAttack();
+	}
+	else
+		attackState = false;
+	
 }
 
 // Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
@@ -64,12 +80,8 @@ float Damp(const float startValue, const float endValue, const float lambda)
 
 void Player::UpdateVelocity()
 {
-	if (moveLeftState && !moveRightState)
-		velocity.x = Damp(velocity.x, -targetSpeed, walkAcceleration);
-
-	else if (moveRightState && !moveLeftState)
-		velocity.x = Damp(velocity.x, targetSpeed, walkAcceleration);
-
+	if (direction != 0)
+		velocity.x = Damp(velocity.x, targetSpeed * direction, walkAcceleration);
 	else
 		velocity.x = Damp(velocity.x, 0, stopAcceleration);
 
@@ -119,4 +131,40 @@ void Player::UpdatePosition()
 {
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
 	ApplyBounds();
+}
+
+void Player::TryAttack()
+{
+	std::vector<Player*> players = Engine::GetInstance().GetGame().GetPlayers();
+
+	Player* playerToAttack = nullptr;
+	
+	for (Player* const player : players)
+	{
+		// If we are moving right, check if the player is to our right, and within range.
+		if(lastDirection == 1)
+		{
+			if(player->GetPosition().x > GetPosition().x && player->GetPosition().x < GetPosition().x + attackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+		else if(lastDirection == -1)
+		{
+			if(player->GetPosition().x < GetPosition().x && player->GetPosition().x > GetPosition().x - attackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+	}
+
+	if (playerToAttack != nullptr)
+		Attack(playerToAttack);
+}
+
+void Player::Attack(Player* player)
+{
+	exit(42);
 }
