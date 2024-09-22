@@ -75,3 +75,18 @@ void Image::LoadFromFile(std::string filename, WORD color)
 		++lineCount;
 	}
 }
+
+bool Image::CheckVisibility()
+{
+	return this->isVisible;
+}
+
+void Image::Show()
+{
+	this->isVisible = true;
+}
+
+void Image::Hide()
+{
+	this->isVisible = false;
+}

@@ -7,6 +7,7 @@
 Player::Player(const float x, const float y, const PlayerBinds binds, const WORD team)
 	:
 	Entity(Vector2D(x, y), "./Textures/Player.txt", team),
+	projectile(Projectile(x, y, team, false)),
 	binds(binds),
 	moveLeftState(false),
 	moveRightState(false),
@@ -43,6 +44,14 @@ void Player::UpdateInputState()
 		moveRightState = true;
 	else
 		moveRightState = false;
+
+	if (Engine::IsKeyDown(binds.projectileAttack))
+	{
+		if (!projectile.CheckFireState())
+		{
+			FireProjectile();
+		}
+	}
 }
 
 // Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
@@ -107,4 +116,15 @@ void Player::UpdatePosition()
 {
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
 	ApplyBounds();
+}
+
+void Player::FireProjectile()
+{
+	Vector2D projectileVelocity;
+	if (isAimingRight)
+		projectileVelocity = Vector2D(1.f * projectileSpeed, 0);
+	else
+		projectileVelocity = Vector2D(-1.f * projectileSpeed, 0);
+
+	this->projectile.Fire(GetPosition(), projectileVelocity);
 }

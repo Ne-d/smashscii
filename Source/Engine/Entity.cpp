@@ -18,7 +18,7 @@ Entity::Entity(const Vector2D spawnPosition, std::string filename, WORD color) :
 
 }
 
-const Image& Entity::GetImage() const
+Image& Entity::GetImage()
 {
 	return this->image;
 }
@@ -28,7 +28,7 @@ const Vector2D& Entity::GetPosition() const
 	return this->position;
 }
 
-void Entity::SetPosition(const Vector2D& newPosition)
+void Entity::SetPosition(const Vector2D newPosition)
 {
 	this->position = newPosition;
 }
@@ -39,7 +39,12 @@ void Entity::SetPosition(const float x, const float y)
 	this->position.y = y;
 }
 
-void Entity::Move(const Vector2D& direction)
+void Entity::Move(const Vector2D direction)
 {
 	this->position += direction;
+}
+
+void Entity::ReturnToSpawnPosition()
+{
+	this->position = spawnPosition;
 }

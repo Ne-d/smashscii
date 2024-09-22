@@ -20,8 +20,15 @@ public:
 	void LoadFromFile(std::string filename, WORD color);
 	COORD GetFileSize(std::string filename);
 
+	bool CheckVisibility();
+
+	void Hide();
+	void Show();
+
 private:
 	CHAR_INFO** table;
 	COORD size;
+
+	bool isVisible = true;
 };
 
