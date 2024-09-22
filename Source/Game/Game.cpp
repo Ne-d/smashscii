@@ -5,8 +5,8 @@ Game::Game()
 	AddTeam(0x0E);
 	AddTeam(0x0F);
 
-	AddPlayer(10, 10, { 'Q', 'D' }, 0);
-	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT }, 1);
+	AddPlayer(10, 10, { 'Q', 'D', VK_SPACE }, 0);
+	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0 }, 1);
 }
 
 void Game::Update()
