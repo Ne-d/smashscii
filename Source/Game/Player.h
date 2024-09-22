@@ -30,7 +30,7 @@ public:
 	void UpdatePosition();
 	
 	void TryAttack() const;
-	void TakeDamage(int damage);
+	void TakeDamage(int damage, Vector2D knockback);
 
 private:
 	PlayerBinds binds;
@@ -54,6 +54,9 @@ private:
 
 	int health = 100;
 	const int attackDamage = 5;
+
+	const float horizontalKnockback = 175;
+	const float verticalKnockback = -30;
 	
 	// Action states
 	bool moveLeftState;
