@@ -3,16 +3,16 @@
 
 Image::Image(const COORD& size)
 	:
-	table(new CHAR_INFO * [size.X]),
-	size(size)
+	size(size),
+	table(new CHAR_INFO * [static_cast<unsigned int>(size.X)])
 {
 	for (int i = 0; i < size.X; ++i)
 	{
-		this->table[i] = new CHAR_INFO[size.Y];
+		this->table[i] = new CHAR_INFO[static_cast<unsigned int>(size.Y)];
 	}
 }
 
-Image::Image(std::string filename, WORD color) : size(GetFileSize(filename)), table(new CHAR_INFO* [size.X])
+Image::Image(const std::string& filename, const WORD color) : size(GetFileSize(filename)), table(new CHAR_INFO* [size.X])
 {
 	for (int i = 0; i < size.X; ++i)
 	{
@@ -41,15 +41,15 @@ const COORD& Image::GetSize() const
 	return this->size;
 }
 
-void Image::SetChar(const int x, const int y, const CHAR_INFO character)
+void Image::SetChar(const int x, const int y, const CHAR_INFO character) const
 {
 	table[x][y] = character;
 }
 
-COORD Image::GetFileSize(std::string filename)
+COORD Image::GetFileSize(const std::string& filename)
 {
 	std::fstream fstrm(filename);
-	COORD fileSize;
+	COORD fileSize{0, 0};
 	std::string fileLine;
 	while (std::getline(fstrm, fileLine))
 	{
@@ -60,17 +60,17 @@ COORD Image::GetFileSize(std::string filename)
 	return fileSize;
 }
 
-void Image::LoadFromFile(std::string filename, WORD color)
+void Image::LoadFromFile(const std::string& filename, const WORD color) const
 {
 	std::fstream fstrm(filename);
 	std::string fileLine;
 	int lineCount = 0;
 	while (std::getline(fstrm, fileLine))
 	{
-		for (int i = 0; i < fileLine.length(); ++i)
+		for (unsigned int i = 0; i < fileLine.length(); ++i)
 		{
 			std::wstring wfileLine = std::wstring(fileLine.begin(), fileLine.end());
-			this->table[i][lineCount] = { wfileLine[i],  color};
+			this->table[i][lineCount] = CHAR_INFO{ wfileLine[i],  color};
 		}
 		++lineCount;
 	}

@@ -5,14 +5,14 @@ class Background
 {
 public:
 	Background() = delete;
-	Background(COORD& size);
-	Background(std::string imageFilename, std::string collisionFilename, WORD color);
+	explicit Background(COORD& size);
+	Background(const std::string& imageFilename, const std::string& collisionFilename, WORD color);
 	~Background();
 
-	const bool& GetCollisionTile(COORD& coords) const;
-	void SetCollisionTile(COORD& coords, bool& collisionTileBool);
+	const bool& GetCollisionTile(const COORD& coords) const;
+	void SetCollisionTile(const COORD& coords, const bool& collisionTileBool) const;
 
-	void LoadCollisionFromFile(std::string collisionFilename);
+	void LoadCollisionFromFile(const std::string& collisionFilename) const;
 
 	Image& GetImage();
 

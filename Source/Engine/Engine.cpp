@@ -74,7 +74,7 @@ void Engine::WriteToBuffer(const unsigned int x, const unsigned int y, const CHA
 
 void Engine::Flush()
 {
-	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize, {0, 0}, &rcRegion);
+	WriteConsoleOutput(hOutput, buffer, dwBufferSize, {0, 0}, &rcRegion);
 }
 
 void Engine::Clear() const
@@ -100,7 +100,7 @@ void Engine::SetScreenSize(const unsigned int x, const unsigned int y)
 
 	buffer = new CHAR_INFO[dwBufferSize.X * dwBufferSize.Y];
 
-	ReadConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+	ReadConsoleOutput(hOutput, buffer, dwBufferSize,
 		{ 0, 0 }, &rcRegion);
 
 	SetConsoleWindowInfo(hOutput, TRUE, &rcRegion);

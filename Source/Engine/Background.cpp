@@ -9,7 +9,10 @@ Background::Background(COORD& size) : image(Image(size)), collisionTable(new boo
 	}
 }
 
-Background::Background(std::string imageFilename, std::string collisionFilename, WORD color) : image(Image(imageFilename, color)), collisionTable(new bool* [image.GetSize().X])
+Background::Background(const std::string& imageFilename, const std::string& collisionFilename, const WORD color)
+	:
+	collisionTable(new bool* [image.GetSize().X]),
+	image(Image(imageFilename, color))
 {
 	for (int i = 0; i < image.GetSize().X; ++i)
 	{
@@ -26,27 +29,27 @@ Background::~Background()
 		delete this->collisionTable[i];
 	}
 
-	delete this->collisionTable;
+	delete[] this->collisionTable;
 }
 
-const bool& Background::GetCollisionTile(COORD& coords) const
+const bool& Background::GetCollisionTile(const COORD& coords) const
 {
 	return this->collisionTable[coords.X][coords.Y];
 }
 
-void Background::SetCollisionTile(COORD& coords, bool& collisionTileBool)
+void Background::SetCollisionTile(const COORD& coords, const bool& collisionTileBool) const
 {
 	this->collisionTable[coords.X][coords.Y] = collisionTileBool;
 }
 
-void Background::LoadCollisionFromFile(std::string collisionFilename)
+void Background::LoadCollisionFromFile(const std::string& collisionFilename) const
 {
 	std::fstream fstrm(collisionFilename);
 	std::string fileLine;
 	int lineCount = 0;
 	while (std::getline(fstrm, fileLine))
 	{
-		for (int i = 0; i < fileLine.length(); ++i)
+		for (unsigned int i = 0; i < fileLine.length(); ++i)
 		{
 			if (fileLine[i] != ' ')
 			{

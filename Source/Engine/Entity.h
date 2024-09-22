@@ -7,9 +7,9 @@ class Entity
 {
 public:
 	Entity() = delete;
-	Entity(COORD size);
+	explicit Entity(COORD size);
 	Entity(COORD size, Vector2D spawnPosition);
-	Entity(Vector2D spawnPosition, std::string filename, WORD color);
+	Entity(Vector2D spawnPosition, const std::string& filename, WORD color);
 
 	virtual const Image& GetImage() const;
 

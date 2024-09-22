@@ -9,9 +9,9 @@ class Game
 public:
 	Game();
 
-	void Update();
+	void Update() const;
 
-	Player& GetPlayer(int number);
+	Player& GetPlayer(unsigned int number) const;
 	const std::vector<Player*>& GetPlayers() const;
 
 	void AddPlayer(float x, float y, PlayerBinds binds, unsigned int teamNb);

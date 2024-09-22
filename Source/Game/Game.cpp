@@ -10,7 +10,7 @@ Game::Game()
 	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1 }, 1);
 }
 
-void Game::Update()
+void Game::Update() const
 {
 	for (Player* player : players)
 		player->Update();
@@ -18,7 +18,7 @@ void Game::Update()
 	DrawPlayerHealth();
 }
 
-Player& Game::GetPlayer(const int number)
+Player& Game::GetPlayer(const unsigned int number) const
 {
 	return *players.at(number);
 }
@@ -33,7 +33,7 @@ void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, cons
 	players.push_back(new Player(x, y, binds, teams.at(teamNb)));
 }
 
-void Game::AddTeam(WORD attributes)
+void Game::AddTeam(const WORD attributes)
 {
 	teams.push_back(attributes);
 }

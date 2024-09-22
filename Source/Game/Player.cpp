@@ -88,7 +88,7 @@ float Damp(const float startValue, const float endValue, const float lambda)
 void Player::UpdateVelocity()
 {
 	if (direction != 0)
-		velocity.x = Damp(velocity.x, targetSpeed * direction, walkAcceleration);
+		velocity.x = Damp(velocity.x, targetSpeed * static_cast<float>(direction), walkAcceleration);
 	else
 		velocity.x = Damp(velocity.x, 0, stopAcceleration);
 
@@ -105,9 +105,9 @@ void Player::ApplyBounds()
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
 	// Right screen bound
-	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
+	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) && velocity.x > 0)
 	{
-		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
+		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X, GetPosition().y);
 		velocity.x = 0;
 	}
 
@@ -118,9 +118,9 @@ void Player::ApplyBounds()
 		velocity.x = 0;
 	}
 
-	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
+	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) && velocity.y > 0)
 	{
-		SetPosition(GetPosition().x, screenSize.Y - GetImage().GetSize().Y);
+		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y);
 		velocity.y = 0;
 		isOnGround = true;
 	}
@@ -172,9 +172,8 @@ void Player::TryAttack() const
 		&& playerToAttack->GetPosition().y >= GetPosition().y - verticalAttackRange
 		&& playerToAttack->GetPosition().y <= GetPosition().y + verticalAttackRange)
 	{
-		playerToAttack->TakeDamage(attackDamage,
-								   Vector2D(lastDirection * horizontalKnockback, verticalKnockback));
-		
+		playerToAttack->TakeDamage(attackDamage, Vector2D(static_cast<float>(lastDirection) * horizontalKnockback,
+			verticalKnockback));
 	}
 }
 
