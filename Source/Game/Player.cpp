@@ -44,6 +44,9 @@ void Player::Update()
 	UpdateInputState();
 	UpdateVelocity();
 	UpdatePosition();
+
+	if(health <= 0)
+		exit(0); // TODO: Not thread-safe
 }
 
 void Player::UpdateInputState()
@@ -102,7 +105,7 @@ void Player::ApplyBounds()
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
 	// Right screen bound
-	/*if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
+	if(GetPosition().x + GetImage().GetSize().X >= screenSize.X && velocity.x > 0)
 	{
 		SetPosition(screenSize.X - GetImage().GetSize().X, GetPosition().y);
 		velocity.x = 0;
@@ -113,7 +116,7 @@ void Player::ApplyBounds()
 	{
 		SetPosition(0, GetPosition().y);
 		velocity.x = 0;
-	}*/
+	}
 
 	if(GetPosition().y + GetImage().GetSize().Y >= screenSize.Y && velocity.y > 0)
 	{
@@ -168,10 +171,15 @@ void Player::TryAttack() const
 	if (playerToAttack != nullptr
 		&& playerToAttack->GetPosition().y >= GetPosition().y - verticalAttackRange
 		&& playerToAttack->GetPosition().y <= GetPosition().y + verticalAttackRange)
-		playerToAttack->TakeDamage(attackDamage);
+	{
+		playerToAttack->TakeDamage(attackDamage,
+								   Vector2D(lastDirection * horizontalKnockback, verticalKnockback));
+		
+	}
 }
 
-void Player::TakeDamage(const int damage)
+void Player::TakeDamage(const int damage, const Vector2D knockback)
 {
 	health -= damage;
+	velocity += knockback;
 }
