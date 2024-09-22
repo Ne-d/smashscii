@@ -119,23 +119,7 @@ void Engine::DrawImage(const Image& image, const COORD coords) const
 
 void Engine::DrawPlayer(const Player& player) const
 {
-	/*constexpr COORD imageSize = {3, 3};
-	Image image(imageSize);
-	image.SetChar(0, 0, { ' ',  0x0E });
-	image.SetChar(1, 0, { 'O',  0x0E });
-	image.SetChar(2, 0, { ' ',  0x0E });
-	image.SetChar(0, 1, { '-',  0x0E });
-	image.SetChar(1, 1, { '|',  0x0E });
-	image.SetChar(2, 1, { '-',  0x0E });
-	image.SetChar(0, 2, { '/',  0x0E });
-	image.SetChar(1, 2, { ' ',  0x0E });
-	image.SetChar(2, 2, { '\\', 0x0E });*/
-
 	DrawImage(player.GetImage(), player.GetPosition().RoundToCoord());
-	
-	/*std::cout << "Player coordinates: " << player.GetPosition().x << " (" << player.GetPosition().RoundToCoord().X << "), "
-		<< player.GetPosition().y << " (" << player.GetPosition().RoundToCoord().Y << ")"
-		<< std::endl;*/
 }
 
 double Engine::GetDeltaTime() const
