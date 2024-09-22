@@ -13,7 +13,12 @@ Entity::Entity(const COORD size, const Vector2D spawnPosition)
 {
 }
 
-Image& Entity::GetImage()
+Entity::Entity(const Vector2D spawnPosition, std::string filename, WORD color) : image(filename, color), position(spawnPosition)
+{
+
+}
+
+const Image& Entity::GetImage() const
 {
 	return this->image;
 }
