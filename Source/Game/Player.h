@@ -31,7 +31,7 @@ public:
 	void UpdatePosition();
 	
 	void TryAttack() const;
-	void TakeDamage(int damage, Vector2D knockback);
+	void TakeDamage(int damage, const Vector2D& knockback);
 
 private:
 	PlayerBinds binds;
