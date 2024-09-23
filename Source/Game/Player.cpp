@@ -92,7 +92,10 @@ void Player::UpdateVelocity()
 	if (direction != 0)
 		velocity.x = Damp(velocity.x, targetSpeed * static_cast<float>(direction), walkAcceleration);
 	else
-		velocity.x = Damp(velocity.x, 0, stopAcceleration);
+		if(isOnGround)
+			velocity.x = Damp(velocity.x, 0, stopAccelerationGround);
+		else
+			velocity.x = Damp(velocity.x, 0, stopAccelerationAir);
 
 	// Gravity
 	if(!isOnGround)
@@ -109,31 +112,33 @@ void Player::ApplyBounds()
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
 	// Right screen bound
-	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) && velocity.x > 0)
+	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) - 1 && velocity.x > 0)
 	{
-		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X, GetPosition().y);
+		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X - 1, GetPosition().y);
 		velocity.x = 0;
 	}
 
 	// Left screen bound
-	if(GetPosition().x <= 0 && velocity.x < 0)
+	if(GetPosition().x <= 1 && velocity.x < 0)
 	{
-		SetPosition(0, GetPosition().y);
+		SetPosition(1, GetPosition().y);
 		velocity.x = 0;
 	}
 
-	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) && velocity.y > 0)
+	// Lower screen bound
+	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) - 1 && velocity.y > 0)
 	{
-		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y);
+		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y - 1);
 		velocity.y = 0;
 		isOnGround = true;
 	}
 	else
 		isOnGround = false;
 
-	if(GetPosition().y <= 0 && velocity.y < 0)
+	// Upper screen bound
+	if(GetPosition().y <= 1 && velocity.y < 0)
 	{
-		SetPosition(GetPosition().x, 0);
+		SetPosition(GetPosition().x, 1);
 		velocity.y = 0;
 	}
 }
