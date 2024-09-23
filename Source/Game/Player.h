@@ -27,6 +27,7 @@ public:
 	void UpdateInputState();
 	void UpdateVelocity();
 	void ApplyBounds();
+	void ApplyCollisions();
 	void UpdatePosition();
 	
 	void TryAttack() const;

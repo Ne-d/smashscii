@@ -8,8 +8,8 @@ class Entity
 public:
 	Entity() = delete;
 	explicit Entity(COORD size);
-	Entity(COORD size, Vector2D spawnPosition);
-	Entity(Vector2D spawnPosition, const std::string& filename, WORD color);
+	Entity(COORD size, const Vector2D& spawnPosition);
+	Entity(const Vector2D& spawnPosition, const std::string& filename, WORD color);
 
 	virtual const Image& GetImage() const;
 

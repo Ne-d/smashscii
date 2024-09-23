@@ -2,12 +2,17 @@
 #include "../Engine/Engine.h"
 
 Game::Game()
+	:
+	backgroundImage("./Textures/Background.txt", 0x0e),
+	backgroundCollision("./Textures/Background.txt", 0x0)
 {
 	AddTeam(0x0E);
 	AddTeam(0x0F);
 
-	AddPlayer(10, 10, { 'Q', 'D', VK_SPACE, VK_CONTROL }, 0);
-	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1 }, 1);
+	AddPlayer(10, 10, { 'Q', 'D', VK_SPACE, VK_CONTROL },
+		FOREGROUND_BLUE + FOREGROUND_GREEN);
+	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1 },
+		FOREGROUND_RED + FOREGROUND_INTENSITY);
 }
 
 void Game::Update() const
@@ -28,9 +33,14 @@ const std::vector<Player*>& Game::GetPlayers() const
 	return players;
 }
 
-void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const unsigned int teamNb)
+const Image* Game::GetBackgroundCollision() const
 {
-	players.push_back(new Player(x, y, binds, teams.at(teamNb)));
+	return &backgroundImage;
+}
+
+void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const WORD team)
+{
+	players.push_back(new Player(x, y, binds, team));
 }
 
 void Game::AddTeam(const WORD attributes)
@@ -45,7 +55,12 @@ void Game::DrawPlayerHealth() const
 		std::wstring const text = L"Player " + std::to_wstring(i) + L" health: "
 								  + std::to_wstring(players.at(i)->GetHealth());
 		
-		short const xCoord = static_cast<short>(i) * 50;
+		const short xCoord = static_cast<short>(i) * 50;
 		Engine::GetInstance().WriteText(text, COORD{xCoord, 0}, players.at(i)->GetTeam());
 	}
+}
+
+void Game::DrawBackground()
+{
+	Engine::GetInstance().DrawImage(backgroundImage, COORD{0, 0});
 }
