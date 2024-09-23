@@ -4,7 +4,8 @@
 Game::Game()
 	:
 	backgroundImage("./Textures/Background.txt", 0x0e),
-	backgroundCollision("./Textures/Background.txt", 0x0)
+	backgroundCollision("./Textures/Background.txt", 0x0),
+	titleScreen("./Textures/Title.txt", 0x0e)
 {
 	AddTeam(0x0E);
 	AddTeam(0x0F);
@@ -38,6 +39,11 @@ const Image* Game::GetBackgroundCollision() const
 	return &backgroundImage;
 }
 
+const Image* Game::GetTitleImage() const
+{
+	return &titleScreen;
+}
+
 void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const WORD team)
 {
 	players.push_back(new Player(x, y, binds, team));
@@ -52,7 +58,7 @@ void Game::DrawPlayerHealth() const
 {
 	for (unsigned int i = 0; i < players.size(); ++i)
 	{
-		std::wstring const text = L" Player " + std::to_wstring(i) + L" health: "
+		std::wstring const text = L" Player " + std::to_wstring(i + 1) + L" health: "
 								  + std::to_wstring(players.at(i)->GetHealth()) + L" ";
 		
 		const short xCoord = 1 + static_cast<short>(i) * 96;
@@ -60,7 +66,12 @@ void Game::DrawPlayerHealth() const
 	}
 }
 
-void Game::DrawBackground()
+void Game::DrawBackground() const
 {
 	Engine::GetInstance().DrawImage(backgroundImage, COORD{0, 0});
+}
+
+void Game::DrawTitle() const
+{
+	Engine::GetInstance().DrawImage(titleScreen, COORD{0, 0});
 }

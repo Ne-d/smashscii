@@ -33,9 +33,21 @@ void Engine::SetDwBufferSize(const COORD& dwBufferSize)
 
 Engine& Engine::GetInstance()
 {
-	// TODO: Changer ça pour faire plaisir à Axel.
+	// TODO: Changer ça pour faire plaisir à Axel Buendia.
 	static Engine instance;
 	return instance;
+}
+
+void Engine::ShowTitle()
+{
+	Clear();
+	game.DrawTitle();
+	Flush();
+
+	while(!IsKeyDown(VK_RETURN))
+		{}	
+
+	MainLoop();
 }
 
 void Engine::MainLoop()

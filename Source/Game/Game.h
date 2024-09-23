@@ -15,12 +15,14 @@ public:
 	Player& GetPlayer(unsigned int number) const;
 	const std::vector<Player*>& GetPlayers() const;
 	const Image* GetBackgroundCollision() const;
+	const Image* GetTitleImage() const;
 
 	void AddPlayer(float x, float y, PlayerBinds binds, WORD team);
 	void AddTeam(WORD attributes);
 
 	void DrawPlayerHealth() const;
-	void DrawBackground();
+	void DrawBackground() const;
+	void DrawTitle() const;
 
 private:
 	std::vector<Player*> players;
@@ -28,4 +30,5 @@ private:
 
 	Image backgroundImage;
 	Image backgroundCollision;
+	Image titleScreen;
 };

@@ -51,10 +51,12 @@ COORD Image::GetFileSize(const std::string& filename)
 	std::fstream fstrm(filename);
 	COORD fileSize{0, 0};
 	std::string fileLine;
+	
 	while (std::getline(fstrm, fileLine))
 	{
 		++fileSize.Y;
 	}
+	
 	fileSize.X = fileLine.length();
 
 	return fileSize;
@@ -70,7 +72,7 @@ void Image::LoadFromFile(const std::string& filename, const WORD color) const
 		for (unsigned int i = 0; i < fileLine.length(); ++i)
 		{
 			std::wstring wfileLine = std::wstring(fileLine.begin(), fileLine.end());
-			this->table[i][lineCount] = CHAR_INFO{ wfileLine[i],  color};
+			this->table[i][lineCount] = CHAR_INFO{ static_cast<WCHAR>(fileLine.at(i)),  color};
 		}
 		++lineCount;
 	}

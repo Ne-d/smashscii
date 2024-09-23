@@ -12,7 +12,8 @@ class Engine
 public: // Methods
 	
 	static Engine& GetInstance();
-	
+
+	void ShowTitle();
 	void MainLoop();
 	void WriteToBuffer(int x, int y, CHAR_INFO character) const;
 	void Flush();
