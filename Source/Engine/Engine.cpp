@@ -54,7 +54,11 @@ void Engine::MainLoop()
 		game.Update();
 		
 		for (Player* player : game.GetPlayers())
+		{
 			DrawPlayer(*player);
+			DrawProjectile(player->GetProjectile());
+		}
+
 		
 		Flush();
 
@@ -118,6 +122,15 @@ void Engine::DrawImage(Image& image, const COORD coords) const
 void Engine::DrawPlayer(Player& player) const
 {
 	DrawImage(player.GetImage(), player.GetPosition().RoundToCoord());
+}
+
+void Engine::DrawProjectile(Projectile& projectile) const
+{
+	Image& projectileImage = projectile.GetImage();
+	if (projectileImage.CheckVisibility())
+	{
+		DrawImage(projectileImage, projectile.GetPosition().RoundToCoord());
+	}
 }
 
 void Engine::WriteText(const std::wstring& text, const COORD coords, const WORD attributes) const

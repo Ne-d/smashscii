@@ -40,11 +40,17 @@ WORD Player::GetTeam() const
 	return team;
 }
 
+Projectile& Player::GetProjectile()
+{
+	return projectile;
+}
+
 void Player::Update()
 {
 	UpdateInputState();
 	UpdateVelocity();
 	UpdatePosition();
+	projectile.Update();
 }
 
 void Player::UpdateInputState()
@@ -77,7 +83,7 @@ void Player::UpdateInputState()
 			FireProjectile();
 		}
 	}
-}
+}   
 
 // Shamelessly stolen from https://www.febucci.com/2018/08/easing-functions/.
 float Lerp(const float startValue, const float endValue, const float factor)

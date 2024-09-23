@@ -24,5 +24,8 @@ private:
 
 	bool collision = false;
 	bool isFired = false;
+
+	const float attackRange = 1.f;
+	const int attackDamage = 5;
 };
 

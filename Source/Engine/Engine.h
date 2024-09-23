@@ -23,6 +23,7 @@ public: // Methods
 	
 	void DrawImage(Image& image, COORD coords) const;
 	void DrawPlayer(Player& player) const;
+	void DrawProjectile(Projectile& projectile) const;
 	void WriteText(const std::wstring& text, COORD coords, WORD attributes) const;
 
 	float GetDeltaTime() const;

@@ -24,6 +24,7 @@ public:
 
 	int GetHealth() const;
 	WORD GetTeam() const;
+	Projectile& GetProjectile();
 	
 	void Update();
 	void UpdateInputState();
@@ -54,7 +55,7 @@ private:
 	const float horizontalAttackRange = 10.f;
 	const float verticalAttackRange = 5.f;
 
-	const float projectileSpeed = 1.f;
+	const float projectileSpeed = .1f;
 
 	// Movement variables
 	Vector2D velocity;

@@ -31,9 +31,9 @@ void Projectile::CheckCollisions()
 {
 	CheckBounds();
 	CheckObjectCollision();
-	if (collision = true)
+	if (collision)
 	{
-		ReturnToSpawnPosition();
+		//ReturnToSpawnPosition();
 		GetImage().Hide();
 		isFired = false;
 		collision = false;
@@ -67,7 +67,42 @@ void Projectile::CheckBounds()
 
 void Projectile::CheckObjectCollision()
 {
+	std::vector<Player*> const players = Engine::GetInstance().GetGame().GetPlayers();
 
+	Player* playerToAttack = nullptr;
+
+	for (Player* player : players)
+	{
+		if (player->GetTeam() != team)
+		{
+		// If we are moving right, check if the player is to our right, and within range.
+		if (velocity.x > 0)
+		{
+			if (player->GetPosition().x > GetPosition().x && player->GetPosition().x < GetPosition().x + attackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+		// If we are moving left, check if the player is to our left, adn within range.
+		else if (velocity.x < 0)
+		{
+			if (player->GetPosition().x < GetPosition().x && player->GetPosition().x > GetPosition().x - attackRange)
+			{
+				playerToAttack = player;
+				break;
+			}
+		}
+
+		if (playerToAttack != nullptr
+			&& playerToAttack->GetPosition().y >= GetPosition().y - attackRange
+			&& playerToAttack->GetPosition().y <= GetPosition().y + attackRange)
+		{
+			playerToAttack->TakeDamage(attackDamage);
+			collision = true;
+		}
+		}
+	}
 }
 
 void Projectile::Fire(const Vector2D& playerPosition, const Vector2D  velocity)
