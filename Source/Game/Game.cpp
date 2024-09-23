@@ -63,21 +63,21 @@ void Game::DrawPlayerHealth() const
 								  + std::to_wstring(players.at(i)->GetHealth()) + L" ";
 		
 		const short xCoord = 1 + static_cast<short>(i) * 96;
-		Engine::GetInstance().WriteText(text, COORD{xCoord, 0}, players.at(i)->GetTeam());
+		Engine::GetInstance()->WriteText(text, COORD{xCoord, 0}, players.at(i)->GetTeam());
 	}
 }
 
 void Game::DrawBackground() const
 {
-	Engine::GetInstance().DrawImage(backgroundImage, COORD{0, 0});
+	Engine::GetInstance()->DrawImage(backgroundImage, COORD{0, 0});
 }
 
 void Game::DrawTitle() const
 {
-	Engine::GetInstance().DrawImage(titleScreen, COORD{0, 0});
+	Engine::GetInstance()->DrawImage(titleScreen, COORD{0, 0});
 }
 
 void Game::DrawEnd() const
 {
-	Engine::GetInstance().DrawImage(endScreen, COORD{0, 0});
+	Engine::GetInstance()->DrawImage(endScreen, COORD{0, 0});
 }
