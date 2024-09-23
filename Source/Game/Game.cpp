@@ -8,15 +8,15 @@ Game::Game()
 	titleScreen("./Textures/Title.txt", 0x0e),
 	endScreen("./Textures/End.txt", 0x0e)
 {
-	AddTeam(0x0E);
-	AddTeam(0x0F);
-
 	AddPlayer(10, 10, { 'Q', 'D', VK_SPACE, VK_CONTROL },
 		FOREGROUND_BLUE + FOREGROUND_GREEN, 0);
 	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1 },
 		FOREGROUND_RED + FOREGROUND_INTENSITY, 1);
 }
 
+/**
+ * Method called every frame to update all players, and the HUD.
+ */
 void Game::Update() const
 {
 	for (Player* player : players)
@@ -45,16 +45,22 @@ const Image* Game::GetTitleImage() const
 	return &titleScreen;
 }
 
+/**
+ * Adds a new player to the game.
+ * @param x The starting x coordinate of the player.
+ * @param y The starting y coordinate of the player.
+ * @param binds The key bindings of the new player.
+ * @param team The team of the new player.
+ * @param playerNumber The player number.
+ */
 void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const WORD team, const int playerNumber)
 {
 	players.push_back(new Player(x, y, binds, team, playerNumber));
 }
 
-void Game::AddTeam(const WORD attributes)
-{
-	teams.push_back(attributes);
-}
-
+/**
+ * Draws a HUD containing the players' health values.
+ */
 void Game::DrawPlayerHealth() const
 {
 	for (unsigned int i = 0; i < players.size(); ++i)

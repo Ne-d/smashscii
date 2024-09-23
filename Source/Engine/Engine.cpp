@@ -25,7 +25,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	delete instance;
+	delete[] buffer;
 }
 
 COORD Engine::GetScreenSize() const

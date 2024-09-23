@@ -8,12 +8,10 @@ Vector2D::Vector2D(const float x, const float y)
 {
 }
 
-Vector2D::Vector2D(const Vector2D& other)
-{
-	this->x = other.x;
-	this->y = other.y;
-}
-
+/**
+ * Converts a Vector2D to a COORD, rounding the values.
+ * @return A COORD containing the rounded values of the Vector2D.
+ */
 COORD Vector2D::RoundToCoord() const
 {
 	return COORD{
@@ -38,6 +36,7 @@ Vector2D& Vector2D::operator-=(const Vector2D& vec)
 	return *this;
 }
 
+// Dot product between two vectors.
 Vector2D& Vector2D::operator*=(const Vector2D& vec)
 {
 	this->x *= vec.x;
@@ -68,6 +67,7 @@ Vector2D& Vector2D::operator/=(const float& scalar)
 	return *this;
 }
 
+// Dot product between two vectors.
 Vector2D Vector2D::operator+(const Vector2D& vec) const
 {
 	Vector2D newVec(*this);

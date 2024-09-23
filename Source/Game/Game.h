@@ -3,36 +3,34 @@
 #include <vector>
 
 #include "Player.h"
-#include "../Engine/Background.h"
 
 class Game
 {
 public:
+	// Constructor
 	Game();
 
-	void Update() const;
-
+	// Accessors
 	Player& GetPlayer(unsigned int number) const;
 	const std::vector<Player*>& GetPlayers() const;
 	const Image* GetBackgroundCollision() const;
 	const Image* GetTitleImage() const;
 
 	void AddPlayer(float x, float y, PlayerBinds binds, WORD team, int playerNumber);
-	void AddTeam(WORD attributes);
 
+	// Gameplay methods
+	void Update() const;
 	void DrawPlayerHealth() const;
 	void DrawBackground() const;
 	void DrawTitle() const;
 	void DrawEnd() const;
 
-private:
+private: // Data
 	std::vector<Player*> players;
-	std::vector<WORD> teams;
 
+	// Images
 	Image backgroundImage;
 	Image backgroundCollision;
 	Image titleScreen;
 	Image endScreen;
-
-	int winner = 0;
 };
