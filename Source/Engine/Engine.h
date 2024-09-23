@@ -12,7 +12,9 @@ class Engine
 public: // Methods
 	
 	static Engine& GetInstance();
-	
+
+	void ShowTitle();
+	void ShowEnd(int winner);
 	void MainLoop();
 	void WriteToBuffer(int x, int y, CHAR_INFO character) const;
 	void Flush();
@@ -32,6 +34,8 @@ public: // Methods
 	COORD GetScreenSize() const;
 	void SetDwBufferSize(const COORD& dwBufferSize);
 
+	void EndGame(int winner);
+
 private:
 	Engine(); // Constructor is private, because Singleton thingies.
 
@@ -49,4 +53,5 @@ private:
 	float frameTime;
 
 	Game game;
+	bool isRunning = true;
 };

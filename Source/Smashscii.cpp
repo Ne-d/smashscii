@@ -6,5 +6,5 @@ constexpr short ScreenHeight = 40;
 int main()
 {
 	Engine::GetInstance().SetScreenSize(ScreenWidth, ScreenHeight);
-	Engine::GetInstance().MainLoop();
+	Engine::GetInstance().ShowTitle();
 }

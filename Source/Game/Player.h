@@ -15,25 +15,27 @@ struct PlayerBinds
 class Player : public Entity
 {
 public:
-	explicit Player(float x = 0, float y = 0, PlayerBinds binds = {'Q', 'D', VK_SPACE, VK_CONTROL}, WORD team = 0);
+	explicit Player(float x = 0, float y = 0, PlayerBinds binds = {'Q', 'D', VK_SPACE, VK_CONTROL}, WORD team = 0, int playerNumber = 0);
 
 	void SetBinds(PlayerBinds newBinds);
 	void SetTeam(WORD team);
 
 	int GetHealth() const;
 	WORD GetTeam() const;
-	
+
 	void Update();
 	void UpdateInputState();
 	void UpdateVelocity();
 	void ApplyBounds();
 	void ApplyCollisions();
 	void UpdatePosition();
-	
+	static void EndGame(int winner);
+
 	void TryAttack() const;
 	void TakeDamage(int damage, const Vector2D& knockback);
 
 private:
+	int playerNumber;
 	PlayerBinds binds;
 
 	// Movement constants

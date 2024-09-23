@@ -5,9 +5,10 @@
 
 #include "../Engine/Engine.h"
 
-Player::Player(const float x, const float y, const PlayerBinds binds, const WORD team)
+Player::Player(const float x, const float y, const PlayerBinds binds, const WORD team, const int playerNumber)
 	:
 	Entity(Vector2D(x, y), "./Textures/Player.txt", team),
+	playerNumber(playerNumber),
 	binds(binds),
 	moveLeftState(false),
 	moveRightState(false),
@@ -47,7 +48,9 @@ void Player::Update()
 	UpdatePosition();
 
 	if(health <= 0)
-		exit(0); // TODO: Not thread-safe
+		// HACK: This only works for two players.
+		EndGame((playerNumber + 1) % 2);
+		
 }
 
 void Player::UpdateInputState()
@@ -173,6 +176,11 @@ void Player::UpdatePosition()
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
 	ApplyBounds();
 	ApplyCollisions();
+}
+
+void Player::EndGame(const int winner)
+{
+	Engine::GetInstance().EndGame(winner);
 }
 
 void Player::TryAttack() const

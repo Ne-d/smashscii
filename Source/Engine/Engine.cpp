@@ -31,16 +31,45 @@ void Engine::SetDwBufferSize(const COORD& dwBufferSize)
 	this->dwBufferSize = dwBufferSize;
 }
 
+void Engine::EndGame(const int winner)
+{
+	isRunning = false;
+	ShowEnd(winner);
+}
+
 Engine& Engine::GetInstance()
 {
-	// TODO: Changer ça pour faire plaisir à Axel.
 	static Engine instance;
 	return instance;
 }
 
+void Engine::ShowTitle()
+{
+	Clear();
+	game.DrawTitle();
+	Flush();
+
+	while(!IsKeyDown(VK_RETURN))
+	{}
+
+	isRunning = true;
+	MainLoop();
+}
+
+void Engine::ShowEnd(const int winner)
+{
+	Clear();
+	game.DrawEnd();
+	WriteText(L"Le joueur " + std::to_wstring(winner + 1) + L" a gagné !", COORD{49, 18}, 0x0e);
+	Flush();
+
+	while(!IsKeyDown(VK_RETURN))
+	{}
+}
+
 void Engine::MainLoop()
 {
-	while (true)
+	while (isRunning)
 	{
 		begin = std::chrono::steady_clock::now();
 
