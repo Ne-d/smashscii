@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <cmath>
+#include <iostream>
 
 #include "../Engine/Engine.h"
 
@@ -87,12 +88,18 @@ float Damp(const float startValue, const float endValue, const float lambda)
 
 void Player::UpdateVelocity()
 {
+	// Horizontal movement
 	if (direction != 0)
 		velocity.x = Damp(velocity.x, targetSpeed * static_cast<float>(direction), walkAcceleration);
 	else
-		velocity.x = Damp(velocity.x, 0, stopAcceleration);
+		if(isOnGround)
+			velocity.x = Damp(velocity.x, 0, stopAccelerationGround);
+		else
+			velocity.x = Damp(velocity.x, 0, stopAccelerationAir);
 
-	velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
+	// Gravity
+	if(!isOnGround)
+		velocity.y = Damp(velocity.y, gravitySpeed, gravityAcceleration);
 
 	if (jumpState && isOnGround)
 	{
@@ -105,32 +112,59 @@ void Player::ApplyBounds()
 	const COORD screenSize = Engine::GetInstance().GetScreenSize();
 
 	// Right screen bound
-	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) && velocity.x > 0)
+	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) - 1 && velocity.x > 0)
 	{
-		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X, GetPosition().y);
+		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X - 1, GetPosition().y);
 		velocity.x = 0;
 	}
 
 	// Left screen bound
-	if(GetPosition().x <= 0 && velocity.x < 0)
+	if(GetPosition().x <= 1 && velocity.x < 0)
 	{
-		SetPosition(0, GetPosition().y);
+		SetPosition(1, GetPosition().y);
 		velocity.x = 0;
 	}
 
-	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) && velocity.y > 0)
+	// Lower screen bound
+	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) - 1 && velocity.y > 0)
 	{
-		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y);
+		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y - 1);
 		velocity.y = 0;
 		isOnGround = true;
 	}
 	else
 		isOnGround = false;
 
-	if(GetPosition().y <= 0 && velocity.y < 0)
+	// Upper screen bound
+	if(GetPosition().y <= 1 && velocity.y < 0)
 	{
-		SetPosition(GetPosition().x, 0);
+		SetPosition(GetPosition().x, 1);
 		velocity.y = 0;
+	}
+}
+
+void Player::ApplyCollisions()
+{
+	const Image* collision = Engine::GetInstance().GetGame().GetBackgroundCollision();
+
+	// Store every point to test collision on.
+	std::vector<COORD> collisionPoints;
+	collisionPoints.reserve(3);
+	for(int i = 0; i < GetImage().GetSize().X; ++i)
+	{
+		const short x = static_cast<short>(GetPosition().x) + static_cast<short>(i);
+		const short y = static_cast<short>(GetPosition().y) + GetImage().GetSize().Y;
+		
+		collisionPoints.push_back(COORD{x, y});
+	}
+
+	for(const COORD& collisionPoint : collisionPoints)
+	{
+		if(collision->GetChar(collisionPoint.X, collisionPoint.Y).Char.UnicodeChar != ' ' && velocity.y >= 0)
+		{
+			velocity.y = 0;
+			isOnGround = true;
+		}
 	}
 }
 
@@ -138,6 +172,7 @@ void Player::UpdatePosition()
 {
 	Move(velocity * Engine::GetInstance().GetDeltaTime());
 	ApplyBounds();
+	ApplyCollisions();
 }
 
 void Player::TryAttack() const

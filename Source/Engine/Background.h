@@ -5,7 +5,7 @@ class Background
 {
 public:
 	Background() = delete;
-	explicit Background(COORD& size);
+	explicit Background(const COORD& size);
 	Background(const std::string& imageFilename, const std::string& collisionFilename, WORD color);
 	~Background();
 

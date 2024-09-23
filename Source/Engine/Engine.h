@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include <vector>
 #include <Windows.h>
 
 #include "Image.h"
@@ -15,7 +14,7 @@ public: // Methods
 	static Engine& GetInstance();
 	
 	void MainLoop();
-	void WriteToBuffer(unsigned int x, unsigned int y, CHAR_INFO character) const;
+	void WriteToBuffer(int x, int y, CHAR_INFO character) const;
 	void Flush();
 	void Clear() const;
 
@@ -27,9 +26,6 @@ public: // Methods
 
 	float GetDeltaTime() const;
 	Game& GetGame();
-
-	void ReadInputs();
-	std::vector<DWORD> GetInputs();
 
 	static bool IsKeyDown(DWORD key);
 
@@ -51,8 +47,6 @@ private:
 	std::chrono::steady_clock::time_point begin;
 	std::chrono::steady_clock::time_point end;
 	float frameTime;
-
-	std::vector<DWORD> keyCodeList;
 
 	Game game;
 };

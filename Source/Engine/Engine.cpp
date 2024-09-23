@@ -16,7 +16,7 @@ Engine::Engine()
 
 	begin(std::chrono::steady_clock::now()),
 	end(std::chrono::steady_clock::now()),
-	frameTime(0.001)
+	frameTime(0.001f)
 {
 	SetConsoleWindowInfo(hOutput, FALSE, &rcRegion);
 }
@@ -44,11 +44,9 @@ void Engine::MainLoop()
 	{
 		begin = std::chrono::steady_clock::now();
 
-		// RENDERING
 		Clear();
-		
-        // INPUTS
-		ReadInputs();
+
+		game.DrawBackground();
         
         // GAME CODE
 		game.Update();
@@ -66,7 +64,7 @@ void Engine::MainLoop()
 	}
 }
 
-void Engine::WriteToBuffer(const unsigned int x, const unsigned int y, const CHAR_INFO character) const
+void Engine::WriteToBuffer(const int x, const int y, const CHAR_INFO character) const
 {
 	if(x < dwBufferSize.X && y < dwBufferSize.Y)
 		buffer[x + y * dwBufferSize.X] = character;
@@ -136,38 +134,6 @@ float Engine::GetDeltaTime() const
 Game& Engine::GetGame()
 {
 	return game;
-}
-
-void Engine::ReadInputs()
-{
-	constexpr DWORD inputRecordSize = 255;
-	INPUT_RECORD inputRecord[inputRecordSize];
-	DWORD numberOfEventsRead;
-
-	PeekConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
-	if (numberOfEventsRead == 0)
-		return;
-
-	ReadConsoleInput(hInput, inputRecord, inputRecordSize, &numberOfEventsRead);
-
-	keyCodeList.clear();
-
-	for (unsigned int i = 0; i < numberOfEventsRead; ++i)
-	{
-		switch (inputRecord[i].EventType)
-		{
-		case KEY_EVENT:
-			keyCodeList.push_back(inputRecord[i].Event.KeyEvent.wVirtualKeyCode);
-			break;
-		default:
-			break;
-		}
-	}
-}
-
-std::vector<DWORD> Engine::GetInputs()
-{
-	return keyCodeList;
 }
 
 bool Engine::IsKeyDown(const DWORD key)

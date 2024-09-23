@@ -27,6 +27,7 @@ public:
 	void UpdateInputState();
 	void UpdateVelocity();
 	void ApplyBounds();
+	void ApplyCollisions();
 	void UpdatePosition();
 	
 	void TryAttack() const;
@@ -37,8 +38,10 @@ private:
 
 	// Movement constants
 	const float targetSpeed = 60.f;
+
 	const float walkAcceleration = 15.f;
-	const float stopAcceleration = 20.f;
+	const float stopAccelerationGround = 20.f;
+	const float stopAccelerationAir = 5.f;
 
 	const float gravitySpeed = 50.f;
 	const float gravityAcceleration = 4.f;
@@ -55,7 +58,7 @@ private:
 	int health = 100;
 	const int attackDamage = 5;
 
-	const float horizontalKnockback = 175;
+	const float horizontalKnockback = 100;
 	const float verticalKnockback = -30;
 	
 	// Action states
