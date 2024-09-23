@@ -52,10 +52,10 @@ void Game::DrawPlayerHealth() const
 {
 	for (unsigned int i = 0; i < players.size(); ++i)
 	{
-		std::wstring const text = L"Player " + std::to_wstring(i) + L" health: "
-								  + std::to_wstring(players.at(i)->GetHealth());
+		std::wstring const text = L" Player " + std::to_wstring(i) + L" health: "
+								  + std::to_wstring(players.at(i)->GetHealth()) + L" ";
 		
-		const short xCoord = static_cast<short>(i) * 50;
+		const short xCoord = 1 + static_cast<short>(i) * 96;
 		Engine::GetInstance().WriteText(text, COORD{xCoord, 0}, players.at(i)->GetTeam());
 	}
 }
