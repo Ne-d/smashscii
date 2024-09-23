@@ -86,7 +86,7 @@ float Lerp(const float startValue, const float endValue, const float factor)
 // Adapted from from https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/.
 float Damp(const float startValue, const float endValue, const float lambda)
 {
-	return Lerp(startValue, endValue, 1 - std::exp(-lambda * Engine::GetInstance().GetDeltaTime()));
+	return Lerp(startValue, endValue, 1 - std::exp(-lambda * Engine::GetInstance()->GetDeltaTime()));
 }
 
 void Player::UpdateVelocity()
@@ -112,7 +112,7 @@ void Player::UpdateVelocity()
 
 void Player::ApplyBounds()
 {
-	const COORD screenSize = Engine::GetInstance().GetScreenSize();
+	const COORD screenSize = Engine::GetInstance()->GetScreenSize();
 
 	// Right screen bound
 	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) - 1 && velocity.x > 0)
@@ -148,7 +148,7 @@ void Player::ApplyBounds()
 
 void Player::ApplyCollisions()
 {
-	const Image* collision = Engine::GetInstance().GetGame().GetBackgroundCollision();
+	const Image* collision = Engine::GetInstance()->GetGame().GetBackgroundCollision();
 
 	// Store every point to test collision on.
 	std::vector<COORD> collisionPoints;
@@ -173,19 +173,19 @@ void Player::ApplyCollisions()
 
 void Player::UpdatePosition()
 {
-	Move(velocity * Engine::GetInstance().GetDeltaTime());
+	Move(velocity * Engine::GetInstance()->GetDeltaTime());
 	ApplyBounds();
 	ApplyCollisions();
 }
 
 void Player::EndGame(const int winner)
 {
-	Engine::GetInstance().EndGame(winner);
+	Engine::GetInstance()->EndGame(winner);
 }
 
 void Player::TryAttack() const
 {
-	std::vector<Player*> const players = Engine::GetInstance().GetGame().GetPlayers();
+	std::vector<Player*> const players = Engine::GetInstance()->GetGame().GetPlayers();
 
 	Player* playerToAttack = nullptr;
 	
