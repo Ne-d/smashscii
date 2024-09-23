@@ -18,7 +18,6 @@ public:
 	const CHAR_INFO& GetChar(int x, int y) const;
 
 	void LoadFromFile(const std::string& filename, WORD color) const;
-	void LoadFromFile2(const std::string& filename, WORD color) const;
 	static COORD GetFileSize(const std::string& filename);
 
 private:

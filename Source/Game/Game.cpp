@@ -5,15 +5,16 @@ Game::Game()
 	:
 	backgroundImage("./Textures/Background.txt", 0x0e),
 	backgroundCollision("./Textures/Background.txt", 0x0),
-	titleScreen("./Textures/Title.txt", 0x0e)
+	titleScreen("./Textures/Title.txt", 0x0e),
+	endScreen("./Textures/End.txt", 0x0e)
 {
 	AddTeam(0x0E);
 	AddTeam(0x0F);
 
 	AddPlayer(10, 10, { 'Q', 'D', VK_SPACE, VK_CONTROL },
-		FOREGROUND_BLUE + FOREGROUND_GREEN);
+		FOREGROUND_BLUE + FOREGROUND_GREEN, 0);
 	AddPlayer(50, 10, { VK_LEFT, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1 },
-		FOREGROUND_RED + FOREGROUND_INTENSITY);
+		FOREGROUND_RED + FOREGROUND_INTENSITY, 1);
 }
 
 void Game::Update() const
@@ -44,9 +45,9 @@ const Image* Game::GetTitleImage() const
 	return &titleScreen;
 }
 
-void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const WORD team)
+void Game::AddPlayer(const float x, const float y, const PlayerBinds binds, const WORD team, const int playerNumber)
 {
-	players.push_back(new Player(x, y, binds, team));
+	players.push_back(new Player(x, y, binds, team, playerNumber));
 }
 
 void Game::AddTeam(const WORD attributes)
@@ -74,4 +75,9 @@ void Game::DrawBackground() const
 void Game::DrawTitle() const
 {
 	Engine::GetInstance().DrawImage(titleScreen, COORD{0, 0});
+}
+
+void Game::DrawEnd() const
+{
+	Engine::GetInstance().DrawImage(endScreen, COORD{0, 0});
 }

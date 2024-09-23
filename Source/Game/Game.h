@@ -17,12 +17,13 @@ public:
 	const Image* GetBackgroundCollision() const;
 	const Image* GetTitleImage() const;
 
-	void AddPlayer(float x, float y, PlayerBinds binds, WORD team);
+	void AddPlayer(float x, float y, PlayerBinds binds, WORD team, int playerNumber);
 	void AddTeam(WORD attributes);
 
 	void DrawPlayerHealth() const;
 	void DrawBackground() const;
 	void DrawTitle() const;
+	void DrawEnd() const;
 
 private:
 	std::vector<Player*> players;
@@ -31,4 +32,7 @@ private:
 	Image backgroundImage;
 	Image backgroundCollision;
 	Image titleScreen;
+	Image endScreen;
+
+	int winner = 0;
 };

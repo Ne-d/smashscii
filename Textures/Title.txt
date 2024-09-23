@@ -18,7 +18,7 @@
 #                                                                                                                      #
 #                                                                                                                      #
 #                                                                                                                      #
-#                                                                                                                      #
+#                   C'est presque comme Smash, mais en ASCII, parce qu'on avait pas de graphiste.                      #
 #                                                                                                                      #
 #                                                                                                                      #
 #                                                                                                                      #
