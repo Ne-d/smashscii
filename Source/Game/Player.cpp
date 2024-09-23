@@ -114,7 +114,7 @@ void Player::ApplyBounds()
 	// Right screen bound
 	if(GetPosition().x + static_cast<float>(GetImage().GetSize().X) >= static_cast<float>(screenSize.X) - 1 && velocity.x > 0)
 	{
-		SetPosition(static_cast<float>(screenSize.X) - GetImage().GetSize().X - 1, GetPosition().y);
+		SetPosition(static_cast<float>(screenSize.X) - static_cast<float>(GetImage().GetSize().X) - 1, GetPosition().y);
 		velocity.x = 0;
 	}
 
@@ -128,7 +128,7 @@ void Player::ApplyBounds()
 	// Lower screen bound
 	if(GetPosition().y + static_cast<float>(GetImage().GetSize().Y) >= static_cast<float>(screenSize.Y) - 1 && velocity.y > 0)
 	{
-		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - GetImage().GetSize().Y - 1);
+		SetPosition(GetPosition().x, static_cast<float>(screenSize.Y) - static_cast<float>(GetImage().GetSize().Y) - 1);
 		velocity.y = 0;
 		isOnGround = true;
 	}
@@ -212,7 +212,7 @@ void Player::TryAttack() const
 	}
 }
 
-void Player::TakeDamage(const int damage, const Vector2D knockback)
+void Player::TakeDamage(const int damage, const Vector2D& knockback)
 {
 	health -= damage;
 	velocity += knockback;
